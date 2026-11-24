@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample HVAC Dashboard</title>
+<meta name="description" content="Sample management dashboard for an HVAC company, built with fictional data by Simple Business Strategies LLC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE work: a management dashboard an HVAC owner reads on Monday morning
+   IDEA the weekly operations report a good controller would hand the owner
+   PICTURE monthly revenue and margin chart, then margin by job type, technician and lead source
+   COLOUR white, ink, cobalt #2347d6 leads the marks, tangerine #ff7a45 flags the problem; night #0f1428
+   TYPE Hanken Grotesk 500 + Hanken Grotesk
+   LAYOUT finding as title, KPI row, main chart full width, then two-column panels; phone stacks */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f1428);--ink:light-dark(#10152b,#eef1fb);--mute:light-dark(#4f5672,#a7afcb);--plane:light-dark(#e8edfd,#18203d);--rule:light-dark(#d3daf2,#2a3355);--blue:light-dark(#2347d6,#5b7cff);--soft:light-dark(#b9c6f5,#34407a);--acc:#ff7a45}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Hanken Grotesk",system-ui,sans-serif;overflow-x:clip}
+a{color:var(--blue)}
+h1,h2{font-weight:500;letter-spacing:-.02em;line-height:1.1;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,3.6vw,42px);max-width:26em}
+h2{font-size:20px;margin-bottom:4px}
+.band{padding:clamp(20px,3vw,40px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+.sample{background:var(--acc);color:#10152b;font-weight:600;font-size:14.5px;padding:10px max(5vw,16px)}
+.sample .wrap{display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between}
+.sample a{color:#10152b}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;color:var(--mute);font-size:15px;margin-bottom:14px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+.chip{min-height:40px;padding:0 16px;border-radius:40px;border:1.5px solid var(--rule);background:var(--bg);color:var(--ink);font:inherit;font-size:15px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.chip:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(10.5em,1fr));border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-top:22px}
+.kpi{padding:16px 16px 16px 0}
+.kpi+.kpi{padding-left:16px;border-left:1px solid var(--rule)}
+.kpi span{display:block;color:var(--mute);font-size:14px}
+.kpi b{display:block;font-weight:500;font-size:clamp(24px,2.6vw,32px);letter-spacing:-.02em;white-space:nowrap}
+.kpi small{font-size:13.5px;color:var(--mute)}
+.kpi.bad b{color:light-dark(#c2410c,#ff9a6e)}
+.fig{position:relative;min-height:300px;margin-top:8px}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+svg text{font:13.5px "Hanken Grotesk",sans-serif;fill:var(--mute);paint-order:stroke;stroke:var(--bg);stroke-width:4px}
+.panel{border-top:2px solid var(--ink);padding-top:14px}
+.sub{color:var(--mute);font-size:15px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px 48px;margin-top:40px}
+.rows{display:grid;gap:12px}
+.row{display:grid;grid-template-columns:8.5em minmax(0,1fr) 4.2em;gap:12px;align-items:center;font-size:15px}
+.row .track{height:22px;background:var(--plane);border-radius:3px;overflow:hidden}
+.row .bar{height:100%;background:var(--blue)}
+.row.flag .bar{background:var(--acc)}
+.row b{font-weight:600;text-align:right;white-space:nowrap}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{padding:9px 8px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font-weight:500;color:var(--mute);font-size:14px}
+th:first-child,td:first-child{text-align:left}
+tr.flag td{background:color-mix(in srgb,var(--acc) 16%,transparent)}
+.actions{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.actions li{border:1px solid var(--rule);border-radius:10px;padding:20px;background:var(--bg)}
+.actions b{display:block;font-weight:600;margin-bottom:6px}
+.actions p{margin:0;color:var(--mute);font-size:15px}
+.actions .ev{display:block;margin-top:10px;font-size:14px;color:var(--ink)}
+.blue{background:var(--plane)}
+.foot{font-size:14.5px;color:var(--mute)}
+.foot .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:6px;background:var(--blue);color:#fff;text-decoration:none;font-weight:600}
+@media(max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}.actions{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.kpi+.kpi{padding-left:0;border-left:0}.kpi{border-bottom:1px solid var(--rule)}.row{grid-template-columns:7em minmax(0,1fr) 3.8em;font-size:14px}table{font-size:13.5px}th,td{padding:7px 5px}}
+</style>
+</head>
+<body>
+
+<div class="sample"><div class="wrap"><span>Sample dashboard. All figures are fictional and for demonstration only.</span><a href="index.html">Back to Simple Business Strategies</a></div></div>
+
+<main class="band wrap">
+  <div class="top"><span>Comfort Air Services (fictional) · June to November 2026 · 5 technicians</span><span>Management dashboard · Private Profit Checkup</span></div>
+  <h1 id="headline">Loading…</h1>
+  <div class="filters" role="group" aria-label="Filter by job type" id="filters"></div>
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel" style="margin-top:36px">
+    <h2>Revenue and estimated margin by month</h2>
+    <p class="sub">Bars show revenue; the line shows estimated job margin (revenue minus parts and loaded labor).</p>
+    <div class="fig"><svg id="chart" role="img" aria-label="Monthly revenue bars with a margin percentage line"></svg></div>
+  </section>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Estimated margin by job type</h2>
+      <p class="sub">Lowest margin is highlighted.</p>
+      <div class="rows" id="types"></div>
+    </section>
+    <section class="panel">
+      <h2>Lead sources</h2>
+      <p class="sub">Share of estimates that became paid jobs.</p>
+      <div class="rows" id="leads"></div>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:40px">
+    <h2>Technician performance</h2>
+    <p class="sub">Technicians are shown by ID only. Labor variance compares actual to estimated hours; the highest callback rate is highlighted.</p>
+    <div class="scroll"><table id="techs"></table></div>
+  </section>
+</main>
+
+<section class="band blue">
+  <div class="wrap">
+    <h2 style="font-size:clamp(24px,2.6vw,30px);margin-bottom:6px">Suggested actions</h2>
+    <p class="sub">Each action links back to the evidence above and comes with a metric to watch.</p>
+    <ul class="actions" id="actions"></ul>
+  </div>
+</section>
+
+<footer class="band foot">
+  <div class="wrap">
+    <span>Built by Simple Business Strategies LLC, Dallas. Your dashboard would use your own systems and stay under your control.</span>
+    <a class="btn" href="https://calendar.app.google/9B4sYfi5GriuHwUi7" target="_blank" rel="noopener">Book a free discovery call</a>
+  </div>
+</footer>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const months=["Jun","Jul","Aug","Sep","Oct","Nov"];
+const vol=[150,176,168,128,104,122];
+const types={
+ Maintenance:{share:.42,price:189,parts:18,est:1.25,over:1.04},
+ Repair:{share:.33,price:430,parts:115,est:2.5,over:1.08},
+ Install:{share:.07,price:7600,parts:4300,est:14,over:1.31},
+ Diagnostic:{share:.18,price:99,parts:0,est:1,over:1.05}};
+const techs=[{id:"Tech A",over:1,cb:.025},{id:"Tech B",over:.98,cb:.02},{id:"Tech C",over:1.03,cb:.03},{id:"Tech D",over:1.22,cb:.09},{id:"Tech E",over:1.01,cb:.03}];
+const leads=[{s:"Repeat customer",w:.78,n:.34},{s:"Referral",w:.62,n:.18},{s:"Website",w:.41,n:.2},{s:"Google Ads",w:.19,n:.22},{s:"Yard signs",w:.33,n:.06}];
+const RATE=45;
+let seed=20261124;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
+const pick=(arr,key)=>{let r=rnd(),c=0;for(const a of arr){c+=a[key];if(r<=c)return a}return arr[arr.length-1]};
+const tlist=Object.entries(types).map(([k,v])=>({k,...v}));
+const jobs=[];
+months.forEach((m,mi)=>{
+ const heat=mi>=4;
+ for(let i=0;i<vol[mi];i++){
+  const t=pick(tlist,'share'),tech=techs[Math.floor(rnd()*techs.length)],lead=pick(leads,'n');
+  const price=t.price*(.85+rnd()*.3)*(heat&&t.k==="Repair"?1.05:1);
+  const parts=t.parts*(.8+rnd()*.4);
+  const est=t.est;
+  const act=est*t.over*tech.over*(.9+rnd()*.2);
+  jobs.push({m:mi,type:t.k,tech:tech.id,lead:lead.s,rev:price,parts,est,act,cb:rnd()<tech.cb*(t.k==="Install"?1.5:1)});
+ }
+});
+const leadStats=leads.map(l=>{const won=jobs.filter(j=>j.lead===l.s).length;return {s:l.s,won,est:Math.round(won/l.w),rev:jobs.filter(j=>j.lead===l.s).reduce((a,j)=>a+j.rev,0)}});
+
+const money=v=>v>=1e6?'$'+(v/1e6).toFixed(2)+'M':v>=1e4?'$'+Math.round(v/1e3)+'k':'$'+Math.round(v).toLocaleString();
+const pct=v=>(v*100).toFixed(1)+'%';
+const marg=js=>{const r=js.reduce((a,j)=>a+j.rev,0),c=js.reduce((a,j)=>a+j.parts+j.act*RATE,0);return r?(r-c)/r:0};
+const sum=(js,f)=>js.reduce((a,j)=>a+f(j),0);
+
+let filter="All";
+$('filters').innerHTML=["All",...Object.keys(types)].map(f=>`<button class="chip" type="button" data-f="${f}" aria-pressed="${f==='All'}">${f==='All'?'All jobs':f}</button>`).join('');
+$('filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;filter=b.dataset.f;for(const c of $('filters').children)c.setAttribute('aria-pressed',c===b);render()});
+
+/* headline from full data */
+const byType=Object.keys(types).map(k=>{const js=jobs.filter(j=>j.type===k);return {k,js,m:marg(js),over:sum(js,j=>j.act)/sum(js,j=>j.est)-1,rev:sum(js,j=>j.rev)}});
+const worst=byType.reduce((a,b)=>b.over>a.over?b:a);
+const lostHrs=sum(worst.js,j=>j.act-j.est);
+$('headline').textContent=`${worst.k} jobs run ${Math.round(worst.over*100)}% over estimated labor hours, costing about ${money(lostHrs*RATE)} in six months`;
+
+const tdStats=techs.map(t=>{const js=jobs.filter(j=>j.tech===t.id);return {id:t.id,n:js.length,est:sum(js,j=>j.est),act:sum(js,j=>j.act),cb:js.filter(j=>j.cb).length/js.length,rev:sum(js,j=>j.rev)}});
+const cbWorst=tdStats.reduce((a,b)=>b.cb>a.cb?b:a);
+const cbOthers=tdStats.filter(t=>t!==cbWorst);const cbAvg=sum(cbOthers.map(t=>({x:t.cb})),o=>o.x)/cbOthers.length;
+const adsL=leadStats.find(l=>l.s==="Google Ads"),repL=leadStats.find(l=>l.s==="Repeat customer");
+
+$('actions').innerHTML=[
+ {t:`Re-estimate ${worst.k.toLowerCase()} labor`,p:`Update the labor standard for ${worst.k.toLowerCase()} jobs or adjust pricing, and review the last 10 jobs for scope creep.`,e:`Watch: actual vs estimated hours on ${worst.k.toLowerCase()} jobs, monthly`},
+ {t:`Coach ${cbWorst.id} on first-time fixes`,p:`${cbWorst.id}'s callback rate is ${pct(cbWorst.cb)} against ${pct(cbAvg)} for the rest of the team. Pair on the next few repairs and review checklists.`,e:"Watch: callback rate by technician, monthly"},
+ {t:"Rebalance marketing spend",p:`Google Ads estimates convert at ${pct(adsL.won/adsL.est)}, while repeat customers convert at ${pct(repL.won/repL.est)}. Test moving budget into maintenance agreements and referral offers.`,e:"Watch: cost per won job by lead source"}
+].map(a=>`<li><b>${a.t}</b><p>${a.p}</p><span class="ev">${a.e}</span></li>`).join('');
+
+const s=$('chart');let cur=jobs;
+const draw=()=>{
+ const W=s.clientWidth,H=s.clientHeight;if(!W||!H)return;
+ const ml=W<520?44:58,mr=W<520?40:56,mt=20,mb=34,iw=W-ml-mr,ih=H-mt-mb;
+ const data=months.map((m,i)=>{const js=cur.filter(j=>j.m===i);return {m,rev:sum(js,j=>j.rev),mg:marg(js)}});
+ const maxR=Math.max(...data.map(d=>d.rev))*1.15||1;
+ const step=maxR>2e5?5e4:maxR>5e4?2e4:maxR>2e4?5e3:2e3;
+ const top=Math.ceil(maxR/step)*step;
+ const bw=iw/data.length,X=i=>ml+bw*i+bw/2,Y=v=>mt+ih-v/top*ih,Ym=v=>mt+ih-v*ih;
+ let g='';
+ for(let v=0;v<=top;v+=step){g+=`<line x1="${ml}" x2="${W-mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"/><text x="${ml-8}" y="${Y(v)+4}" text-anchor="end">${money(v)}</text>`}
+ for(let p=0;p<=1;p+=.25)g+=`<text x="${W-mr+8}" y="${Ym(p)+4}">${Math.round(p*100)}%</text>`;
+ data.forEach((d,i)=>{const w=Math.min(64,bw*.55);g+=`<rect x="${X(i)-w/2}" y="${Y(d.rev)}" width="${w}" height="${mt+ih-Y(d.rev)}" fill="var(--soft)" rx="2"/><text x="${X(i)}" y="${H-10}" text-anchor="middle">${d.m}</text>`;if(W>=520)g+=`<text x="${X(i)}" y="${Y(d.rev)-8}" text-anchor="middle" style="fill:var(--ink)">${money(d.rev)}</text>`});
+ const pts=data.map((d,i)=>`${X(i)},${Ym(d.mg)}`).join(' ');
+ g+=`<polyline points="${pts}" fill="none" stroke="var(--blue)" stroke-width="3"/>`;
+ data.forEach((d,i)=>g+=`<circle cx="${X(i)}" cy="${Ym(d.mg)}" r="5" fill="var(--blue)" stroke="var(--bg)" stroke-width="2"/>`);
+ const L=data[data.length-1];g+=`<text x="${X(data.length-1)}" y="${Ym(L.mg)+24}" text-anchor="middle" style="fill:var(--blue);font-weight:600;stroke:var(--soft)">${pct(L.mg)}${W<520?'':' margin'}</text>`;
+ s.innerHTML=g;
+};
+const ro=new ResizeObserver(draw);ro.observe(s);
+
+function render(){
+ cur=filter==="All"?jobs:jobs.filter(j=>j.type===filter);
+ const rev=sum(cur,j=>j.rev),mg=marg(cur),est=sum(cur,j=>j.est),act=sum(cur,j=>j.act),cb=cur.filter(j=>j.cb).length/cur.length;
+ const first=cur.filter(j=>j.m<3),last=cur.filter(j=>j.m>=3);
+ const k=[
+  {l:"Revenue",v:money(rev),n:`${cur.length.toLocaleString()} jobs`},
+  {l:"Estimated job margin",v:pct(mg),n:`Jun–Aug ${pct(marg(first))} · Sep–Nov ${pct(marg(last))}`},
+  {l:"Average job value",v:money(rev/cur.length),n:"Revenue per completed job"},
+  {l:"Labor over estimate",v:'+'+pct(act/est-1),n:`${Math.round(act-est).toLocaleString()} extra hours`,bad:act/est-1>.1},
+  {l:"Callback rate",v:pct(cb),n:"Return visits within 30 days",bad:cb>.05}];
+ $('kpis').innerHTML=k.map(x=>`<div class="kpi${x.bad?' bad':''}"><span>${x.l}</span><b>${x.v}</b><small>${x.n}</small></div>`).join('');
+ const lowest=byType.reduce((a,b)=>b.m<a.m?b:a).k;
+ $('types').innerHTML=byType.map(t=>`<div class="row${t.k===lowest?' flag':''}${filter!=='All'&&filter!==t.k?'" style="opacity:.4':''}"><span>${t.k}</span><div class="track"><div class="bar" style="width:${Math.max(2,t.m*100/.7)}%"></div></div><b>${pct(t.m)}</b></div>`).join('');
+ const ls=leadStats.map(l=>{const js=cur.filter(j=>j.lead===l.s);const sh=filter==="All"?1:js.length/Math.max(1,l.won);return {...l,conv:l.won/l.est,n:js.length}}).sort((a,b)=>b.conv-a.conv);
+ const lowLead=ls[ls.length-1].s;
+ $('leads').innerHTML=ls.map(l=>`<div class="row${l.s===lowLead?' flag':''}"><span>${l.s}</span><div class="track"><div class="bar" style="width:${l.conv*100}%"></div></div><b>${pct(l.conv)}</b></div>`).join('');
+ const ts=techs.map(t=>{const js=cur.filter(j=>j.tech===t.id);const e=sum(js,j=>j.est),a=sum(js,j=>j.act);return {id:t.id,n:js.length,rev:sum(js,j=>j.rev),v:e?a/e-1:0,cb:js.length?js.filter(j=>j.cb).length/js.length:0,mg:marg(js)}});
+ const hi=ts.reduce((a,b)=>b.cb>a.cb?b:a).id;
+ $('techs').innerHTML=`<thead><tr><th>Technician</th><th>Jobs</th><th>Revenue</th><th>Labor variance</th><th>Callback rate</th><th>Est. margin</th></tr></thead><tbody>`+
+  ts.map(t=>`<tr${t.id===hi?' class="flag"':''}><td>${t.id}</td><td>${t.n}</td><td>${money(t.rev)}</td><td>${t.v>=0?'+':''}${pct(t.v)}</td><td>${pct(t.cb)}</td><td>${pct(t.mg)}</td></tr>`).join('')+'</tbody>';
+ draw();
+}
+render();
+}
+</script>
+</body>
+</html>
