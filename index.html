@@ -97,6 +97,9 @@ svg text{font:13.5px "Hanken Grotesk",sans-serif;fill:var(--mute)}
 .person img{width:139px;height:174px;object-fit:cover;border-radius:10px;flex:none;box-shadow:0 0 0 4px var(--plane)}
 .person h3{font-size:22px}
 @media(max-width:400px){.person img{width:104px;height:130px}}
+.book{background:var(--bg);border:1px solid var(--rule);border-left:6px solid var(--yel);border-radius:10px;padding:22px;margin-top:24px}
+.book h3{margin-bottom:6px}
+.book p{color:var(--mute);margin:0 0 14px;font-size:15.5px}
 .creds{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:16px 0 0;padding:0}
 .creds li{border:1px solid var(--rule);border-radius:40px;padding:6px 14px;font-size:15px;white-space:nowrap}
 .small{font-size:15px;color:var(--mute)}
@@ -127,7 +130,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
   <div class="wrap">
     <a class="brand" href="#top">Simple Business Strategies</a>
     <div class="links"><a href="#questions">What we answer</a><a href="#control">Data control</a><a href="#process">Process</a><a href="#pilot">Pilot</a><a href="#about">About</a></div>
-    <a class="btn" href="#contact">Book a discovery call</a>
+    <a class="btn" href="https://calendar.app.google/9B4sYfi5GriuHwUi7" target="_blank" rel="noopener">Book a discovery call</a>
   </div>
 </nav>
 
@@ -138,7 +141,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
   </div>
   <div>
     <p class="lead">A Dallas-based consultancy helping small businesses turn everyday operational information into practical decisions about profit, customers and growth, while you keep control of your data.</p>
-    <div class="cta"><a class="btn" href="#contact">Book a confidential discovery call</a><a class="btn ghost" href="#pilot">See the $1,000 pilot</a></div>
+    <div class="cta"><a class="btn" href="https://calendar.app.google/9B4sYfi5GriuHwUi7" target="_blank" rel="noopener">Book a free discovery call</a><a class="btn ghost" href="#pilot">See the $1,000 pilot</a></div>
   </div>
 </header>
 
@@ -223,7 +226,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
       <span style="font-weight:600">Introductory pilot fee</span>
       <b>$1,000</b>
       <span>One business unit, fixed scope</span>
-      <a class="btn" href="#contact">Start with a discovery call</a>
+      <a class="btn" href="https://calendar.app.google/9B4sYfi5GriuHwUi7" target="_blank" rel="noopener">Book a discovery call</a>
     </div>
   </div>
 </section>
@@ -259,6 +262,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
     <div>
       <h2 style="margin-bottom:16px">Arrange a discovery conversation</h2>
       <p class="muted">We'll confirm the business question, available systems, privacy expectations, feasibility, scope, schedule and terms. No raw data is required for this conversation.</p>
+      <div class="book">
+        <h3>Book a free 30-minute call</h3>
+        <p>Pick a time that suits you from the live calendar. You'll get a confirmation by email.</p>
+        <a class="btn" href="https://calendar.app.google/9B4sYfi5GriuHwUi7" target="_blank" rel="noopener">Choose a time</a>
+      </div>
       <p class="small" style="margin:24px 0 4px">Call or text (preferred)</p>
       <p class="big"><a href="tel:+12148970339" style="text-decoration:none">(214) 897-0339</a></p>
       <p class="small" style="margin:20px 0 4px">Email</p>
@@ -274,6 +282,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
       <label class="full">Preferred data-control option<select id="f-opt"><option>Not sure yet, let's discuss</option></select></label>
       <label class="full">What business question would you like answered?<textarea id="f-msg" required placeholder="Please don't include customer names, passwords or financial account details."></textarea></label>
       <input type="checkbox" name="botcheck" id="f-bot" style="display:none" tabindex="-1" autocomplete="off">
+      <p class="small" style="grid-column:1/-1;margin:0">Prefer to write? Send a message and we'll reply within two business days.</p>
       <p class="err" id="f-err" aria-live="polite"></p>
       <div><button class="btn" type="submit" id="f-send">Send message</button></div>
       <div class="done" id="thanks" aria-live="polite"><p style="margin:0"><b>Thank you, your message has been sent.</b> We'll reply within two business days. For anything urgent, call or text (214) 897-0339.</p></div>
