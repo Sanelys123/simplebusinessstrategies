@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simple Business Strategies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE professional and reassuring: a careful small firm handling confidential numbers
+   IDEA a secure-room floor plan: your records stay inside a walled environment, only approved summaries pass out
+   PICTURE large diagram on a cobalt field: client environment behind a locked boundary, one path out to a dashboard
+   COLOUR less is more: white ground, cobalt #2347d6 leads in a few full-width fields, pale blue tint for alternating bands, tangerine #ff7a45 marks only what matters; night #0f1428
+   TYPE Hanken Grotesk 500 display + Hanken Grotesk text
+   LAYOUT laptop: title and call to action across the top, diagram full width beneath, facts strip; phone: title, diagram stacked vertically, buttons */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f1428);--ink:light-dark(#10152b,#eef1fb);--mute:light-dark(#4f5672,#a7afcb);--plane:light-dark(#e8edfd,#18203d);--plane2:light-dark(#f4f6fe,#141a33);--rule:light-dark(#d3daf2,#2a3355);--blue:light-dark(#2347d6,#4f6ff0);--yel:#ff7a45;--yelink:#10152b}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 "Hanken Grotesk",system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+h1,h2,h3{font-weight:500;letter-spacing:-.02em;line-height:1.08;margin:0;text-wrap:balance}
+h1{font-size:clamp(34px,4.6vw,52px)}
+h2{font-size:clamp(28px,3.4vw,40px)}
+h3{font-size:19px;letter-spacing:-.01em}
+p{margin:0 0 1em}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding-block:clamp(36px,5vw,80px);padding-left:max(5vw,16px);padding-right:max(5vw,16px)}
+.muted{color:var(--mute)}
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);padding:12px max(5vw,16px)}
+nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px}
+.brand{font-weight:600;font-size:clamp(20px,2.2vw,24px);letter-spacing:-.01em;text-decoration:none;display:flex;align-items:center;gap:10px;margin-right:auto;line-height:1.2}
+.mark{width:24px;height:24px;flex:none}
+.links{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:15px}
+.links a{text-decoration:none;color:var(--mute);padding:6px 0}
+.links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:6px;font:inherit;font-weight:600;font-size:15.5px;text-decoration:none;cursor:pointer;border:1.5px solid var(--blue);background:var(--blue);color:#fff}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn:hover{opacity:.85}
+.btn:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px 56px;align-items:end;padding-bottom:28px}
+.kicker{font-size:17px;font-weight:500;margin:0 0 12px}
+.hero p.lead{color:var(--mute);font-size:18px;max-width:34em;margin:0}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;align-items:center}
+.phone{font-weight:600;white-space:nowrap}
+.fig{position:relative;min-height:clamp(380px,40vw,470px);background:var(--blue);--ink:#ffffff;--mute:#d6defc;--plane:rgba(255,255,255,.1);--rule:rgba(8,20,80,.35);--bg:#1a36a8}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+svg text{font:13.5px "Hanken Grotesk",sans-serif;fill:var(--mute)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(13em,1fr));border-bottom:1px solid var(--rule)}
+.facts div{padding:18px max(2vw,12px) 18px 0;border-right:1px solid var(--rule)}
+.facts div:last-child{border-right:0}
+.facts b{display:block;font-weight:500;font-size:19px}
+.facts span{color:var(--mute);font-size:15px}
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px 48px;align-items:end;margin-bottom:36px}
+.head p{color:var(--mute);margin:0}
+.grey{background:var(--plane)}
+.blue{background:var(--blue);color:#fff}
+.blue .muted,.blue .head p{color:#dbe2fd}
+.grey .head p,.grey .muted,.grey .opt p{color:light-dark(#3e4566,#b6bdd8)}
+.qs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);list-style:none;margin:0;padding:0}
+.qs li{background:var(--bg);padding:22px 22px 24px;font-size:17.5px;font-weight:500;line-height:1.35}
+.qs li span{display:block;color:var(--blue);font-weight:600;font-weight:400;font-size:15px;margin-bottom:8px}
+.dl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
+.dl article{border-top:2px solid var(--blue);padding-top:14px}
+.dl article:first-child{border-top-color:var(--yel);border-top-width:6px;padding-top:10px}
+.dl p{margin:8px 0 0;font-size:15.5px;color:var(--mute)}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.opt{background:var(--bg);border:1px solid var(--rule);border-radius:8px;color:var(--ink);padding:24px;display:flex;flex-direction:column;gap:10px}
+.opt svg{width:100%;height:96px;display:block;margin-bottom:6px}
+.opt .tag{font-size:15px;font-weight:600;color:var(--blue)}
+.opt p{margin:0;font-size:15.5px}
+.princ{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px;margin:0}
+.princ div{display:grid;grid-template-columns:11em minmax(0,1fr);gap:16px;padding:16px 0;border-top:1px solid var(--rule)}
+.princ dt{font-weight:600}
+.princ dd{margin:0;color:var(--mute)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px 64px;align-items:start}
+.nolist{columns:2;column-gap:32px;padding-left:20px;margin:0 0 16px}
+.nolist li{margin:0 0 6px;break-inside:avoid}
+.box{border:1px solid var(--rule);border-radius:10px;padding:24px;background:var(--bg)}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 32px;counter-reset:s}
+.steps li{position:relative;padding-left:52px;counter-increment:s}
+.steps li:before{content:counter(s);position:absolute;left:0;top:-4px;width:36px;height:36px;border-radius:50%;border:2px solid var(--blue);color:var(--blue);display:grid;place-items:center;font-weight:600;background:var(--bg)}
+.steps li:last-child:before{background:var(--yel);color:var(--yelink);border-color:var(--yelink)}
+.steps p{margin:6px 0 0;font-size:15.5px}
+.pilot{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);border:1px solid var(--rule);border-radius:10px;overflow:hidden;background:var(--bg)}
+.pilot>div{padding:clamp(22px,3vw,36px)}
+.pilot .price{background:var(--blue);color:#fff;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.pilot .price b{font-size:clamp(48px,7vw,72px);font-weight:500;line-height:1;letter-spacing:-.03em}
+.pilot ul{margin:12px 0 0;padding-left:20px;columns:2;column-gap:28px}
+.pilot li{margin-bottom:6px;break-inside:avoid}
+.pilot .price .btn{background:var(--yel);color:var(--yelink);border-color:var(--yel);align-self:flex-start;margin-top:12px}
+.creds{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:16px 0 0;padding:0}
+.creds li{border:1px solid var(--rule);border-radius:40px;padding:6px 14px;font-size:15px;white-space:nowrap}
+.small{font-size:15px;color:var(--mute)}
+form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+label{display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:500}
+label.full{grid-column:1/-1}
+input,textarea,select{font:inherit;font-size:16px;font-weight:400;padding:11px 12px;border:1.5px solid var(--rule);border-radius:4px;background:var(--bg);color:var(--ink);width:100%}
+textarea{min-height:120px;resize:vertical}
+.err{color:light-dark(#b3261e,#ff8a80);font-size:14px;min-height:1.2em;grid-column:1/-1;margin:0}
+.done{display:none;grid-column:1/-1;border:1.5px solid var(--blue);border-radius:8px;padding:18px;background:var(--plane2)}
+.done.show{display:block}
+.done pre{white-space:pre-wrap;font:14px/1.5 "Hanken Grotesk",sans-serif;background:var(--bg);padding:12px;border:1px solid var(--rule);max-height:200px;overflow:auto}
+.big{font-size:clamp(22px,2.6vw,28px);font-weight:500;margin:0;overflow-wrap:anywhere}
+footer{border-top:1px solid var(--rule);font-size:15px;color:var(--mute)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between}
+@media(max-width:1000px){.dl{grid-template-columns:repeat(3,minmax(0,1fr))}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){.qs,.opts{grid-template-columns:repeat(2,minmax(0,1fr))}.princ{grid-template-columns:minmax(0,1fr)}.pilot{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:700px){.hero,.head,.two{grid-template-columns:minmax(0,1fr)}.links{display:none}}
+@media(max-width:600px){.qs,.opts,.dl,.steps,form{grid-template-columns:minmax(0,1fr)}.nolist,.pilot ul{columns:1}.princ div{grid-template-columns:minmax(0,1fr);gap:4px}.facts div{border-right:0;border-bottom:1px solid var(--rule)}.facts div:last-child{border-bottom:0}}
+@keyframes flow{to{stroke-dashoffset:-24}}
+.flow{animation:flow 1.6s linear infinite}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.flow{animation:none}}
+</style>
+</head>
+<body>
+
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top">Simple Business Strategies</a>
+    <div class="links"><a href="#questions">What we answer</a><a href="#control">Data control</a><a href="#process">Process</a><a href="#pilot">Pilot</a><a href="#about">About</a></div>
+    <a class="btn" href="#contact">Book a discovery call</a>
+  </div>
+</nav>
+
+<header id="top" class="band wrap hero">
+  <div>
+    <p class="kicker">Private Profit Checkup and Decision Intelligence Review</p>
+    <h1>Insight without surrendering control of your data</h1>
+  </div>
+  <div>
+    <p class="lead">A Dallas-based consultancy helping small businesses turn everyday operational information into practical decisions about profit, customers and growth, while you keep control of your data.</p>
+    <div class="cta"><a class="btn" href="#contact">Book a confidential discovery call</a><a class="btn ghost" href="#pilot">See the $1,000 pilot</a></div>
+  </div>
+</header>
+
+<div class="fig" role="img" aria-label="Diagram: your raw records stay inside your own environment behind a locked boundary; only approved summaries pass out to a management dashboard"><svg id="ps"></svg></div>
+
+<div class="band wrap" style="padding-block:0">
+  <div class="facts">
+    <div><b>Privacy-first by design</b><span>You choose how your data is accessed</span></div>
+    <div><b>Accounting + data science</b><span>Business sense and analytical depth</span></div>
+    <div><b>$1,000 introductory pilot</b><span>Fixed scope, clear deliverables</span></div>
+    <div><b>Based in Dallas, Texas</b><span>Serving small businesses</span></div>
+  </div>
+</div>
+
+<section id="questions" class="band wrap">
+  <div class="head">
+    <h2>Questions we help you answer</h2>
+    <p>Your business data can show where profit is made, where it leaks, and which customers and channels matter most. We focus on the questions that change decisions.</p>
+  </div>
+  <ul class="qs" id="qs"></ul>
+</section>
+
+<section class="band wrap" style="padding-top:0">
+  <div class="head">
+    <h2>What you receive</h2>
+    <p>Every review ends with something you can use on Monday morning, not a pile of charts.</p>
+  </div>
+  <div class="dl" id="dl"></div>
+</section>
+
+<section id="control" class="band grey">
+  <div class="wrap">
+    <div class="head">
+      <h2>You choose how we work with your data</h2>
+      <p>Pick the working method that fits your systems, security expectations and comfort level. No raw data is needed to start the conversation.</p>
+    </div>
+    <div class="opts" id="opts"></div>
+  </div>
+</section>
+
+<section class="band wrap">
+  <div class="head">
+    <h2>Privacy-first working principles</h2>
+    <p>These commitments apply to every engagement and are documented before work begins.</p>
+  </div>
+  <dl class="princ" id="princ"></dl>
+</section>
+
+<section class="band wrap two" style="padding-top:0">
+  <div>
+    <h2 style="margin-bottom:16px">Information we don't normally need</h2>
+    <p class="muted">Unless essential to an agreed and properly protected engagement, please don't send us:</p>
+  </div>
+  <div class="box">
+    <ul class="nolist" id="nolist"></ul>
+    <p class="small" style="margin:0">Sensitive, regulated or unusually high-risk information requires separate evaluation before work begins.</p>
+  </div>
+</section>
+
+<section id="process" class="band blue">
+  <div class="wrap">
+    <div class="head">
+      <h2>How the engagement works</h2>
+      <p class="muted">Six clear steps, from a confidential conversation to a clean project close. No client data is transferred until the working method and written terms are approved by both parties.</p>
+    </div>
+    <ol class="steps" id="steps"></ol>
+  </div>
+</section>
+
+<section id="pilot" class="band wrap">
+  <div class="head">
+    <h2>Introductory pilot</h2>
+    <p>A focused first project to see what your data can tell you, at a fixed price.</p>
+  </div>
+  <div class="pilot">
+    <div>
+      <h3>What's included</h3>
+      <ul id="pilotlist"></ul>
+      <p class="small" style="margin:16px 0 0">Additional integrations, extensive data cleaning, regulated information, custom software development, travel and ongoing monitoring are quoted separately after scope review.</p>
+    </div>
+    <div class="price">
+      <span style="font-weight:600">Introductory pilot fee</span>
+      <b>$1,000</b>
+      <span>One business unit, fixed scope</span>
+      <a class="btn" href="#contact">Start with a discovery call</a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="band grey">
+  <div class="wrap two">
+    <div>
+      <h2 style="margin-bottom:16px">About the firm</h2>
+      <p>Simple Business Strategies LLC is a Dallas-based consultancy offering business intelligence, data science and practical strategy to small businesses.</p>
+      <p>We also help clients understand how their existing processes, procedures and software platforms are performing, including any AI or data-driven tools they already use, and where practical improvements may be possible within the agreed scope.</p>
+    </div>
+    <div class="box">
+      <h3>Samson Olujide Akomolafe</h3>
+      <p class="muted" style="margin:4px 0 12px">Principal Consultant</p>
+      <p style="margin:0">Samson's background combines accounting, data science, and applied artificial intelligence and machine learning, so findings are grounded in how a business actually makes and spends money.</p>
+      <ul class="creds"><li>BSc Accounting</li><li>PGD AI/ML</li><li>Dip FSSD</li><li>Cert Gen AI</li><li>MS Data Science, SMU</li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="band wrap two">
+  <div><h2>Important limitations</h2></div>
+  <div class="muted">
+    <p>The quality of findings depends on the completeness, consistency and accuracy of the available information. Potential profit leakage, forecasts, benchmarks and recommendations are analytical estimates that management should review before taking action. Findings are evidence-based observations and recommendations, not guaranteed financial outcomes.</p>
+    <p>This service does not replace legal, accounting, tax, cybersecurity, compliance, investment or other licensed professional advice.</p>
+    <p style="margin:0">Final scope, confidentiality, data processing, liability, retention, deletion and payment terms are governed by a separately signed engagement agreement.</p>
+  </div>
+</section>
+
+<section id="contact" class="band grey">
+  <div class="wrap two">
+    <div>
+      <h2 style="margin-bottom:16px">Arrange a discovery conversation</h2>
+      <p class="muted">We'll confirm the business question, available systems, privacy expectations, feasibility, scope, schedule and terms. No raw data is required for this conversation.</p>
+      <p class="small" style="margin:24px 0 4px">Call or text (preferred)</p>
+      <p class="big"><a href="tel:+12148970339" style="text-decoration:none">(214) 897-0339</a></p>
+      <p class="small" style="margin:20px 0 4px">Email</p>
+      <p class="big" style="font-size:clamp(18px,2vw,22px)"><a href="mailto:simplebusinessstra@gmail.com">simplebusinessstra@gmail.com</a></p>
+    </div>
+    <form id="f" novalidate>
+      <label>Name<input id="f-name" autocomplete="name" required></label>
+      <label>Business<input id="f-co" autocomplete="organization"></label>
+      <label>Email<input id="f-email" type="email" autocomplete="email" required></label>
+      <label>Phone<input id="f-tel" type="tel" autocomplete="tel"></label>
+      <label class="full">Preferred data-control option<select id="f-opt"><option>Not sure yet, let's discuss</option></select></label>
+      <label class="full">What business question would you like answered?<textarea id="f-msg" required placeholder="Please don't include customer names, passwords or financial account details."></textarea></label>
+      <input type="checkbox" name="botcheck" id="f-bot" style="display:none" tabindex="-1" autocomplete="off">
+      <p class="err" id="f-err" aria-live="polite"></p>
+      <div><button class="btn" type="submit" id="f-send">Send message</button></div>
+      <div class="done" id="thanks" aria-live="polite"><p style="margin:0"><b>Thank you, your message has been sent.</b> We'll reply within two business days. For anything urgent, call or text (214) 897-0339.</p></div>
+      <div class="done" id="done" aria-live="polite">
+        <p style="margin-top:0"><b>We couldn't send your message just now.</b> Please copy it and email it to simplebusinessstra@gmail.com, or call or text (214) 897-0339.</p>
+        <pre id="out"></pre>
+        <div class="cta" style="margin-top:12px"><button class="btn" type="button" id="copy">Copy message</button><a class="btn ghost" id="mail" href="#">Open in email</a></div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer class="band" style="padding-block:28px">
+  <div class="wrap">
+    <span>© <span id="yr"></span> Simple Business Strategies LLC · Dallas, Texas</span>
+    <span class="phone">(214) 897-0339</span>
+  </div>
+</footer>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const qs=[
+ ["Performance","Which services, customers, jobs, locations or channels produce the strongest results?"],
+ ["Margin","Where may discounts, cancellations, excess labour, rework or other costs be reducing margin?"],
+ ["Retention","Which customers return, and which customer groups may require attention?"],
+ ["Marketing","Which marketing sources appear to generate valuable business?"],
+ ["Blind spots","What trends, exceptions or reporting gaps may be hidden in current data?"],
+ ["Monitoring","Which key performance indicators should management monitor regularly?"]];
+$('qs').innerHTML=qs.map(q=>`<li><span>${q[0]}</span>${q[1]}</li>`).join('');
+
+const dl=[
+ ["Management dashboard","A focused view of agreed indicators, trends and exceptions."],
+ ["Findings report","A concise explanation of observations, limitations and priority areas to investigate."],
+ ["Action list","Practical next steps linked to the available evidence."],
+ ["Management review","A guided discussion of the findings and their business implications."],
+ ["Measurement plan","Recommended metrics and an optional approach for ongoing monitoring."]];
+$('dl').innerHTML=dl.map(d=>`<article><h3>${d[0]}</h3><p>${d[1]}</p></article>`).join('');
+
+const ic={
+ a:'<rect x="4" y="6" width="150" height="84" rx="4" fill="var(--plane)" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/><rect x="20" y="22" width="56" height="8" fill="currentColor"/><rect x="20" y="38" width="44" height="8" fill="currentColor"/><rect x="20" y="54" width="60" height="8" fill="currentColor"/><rect x="20" y="70" width="38" height="8" fill="currentColor"/><circle cx="118" cy="48" r="20" fill="var(--bg)" stroke="currentColor" stroke-width="2.5"/><path d="M128 58 L142 72" stroke="currentColor" stroke-width="4"/><text x="166" y="52" style="font-size:13px">we work</text><text x="166" y="68" style="font-size:13px">inside</text>',
+ b:'<rect x="4" y="16" width="96" height="64" rx="4" fill="var(--plane)" stroke="currentColor" stroke-width="2"/><text x="14" y="38" style="font-size:12px">Jane Smith</text><text x="14" y="56" style="font-size:12px">12 Elm St</text><text x="14" y="72" style="font-size:12px">INV-88213</text><path d="M108 48 H132" stroke="currentColor" stroke-width="2.5"/><path d="M126 42 L134 48 L126 54" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="142" y="16" width="96" height="64" rx="4" fill="var(--bg)" stroke="currentColor" stroke-width="2"/><text x="152" y="38" style="font-size:12px;fill:var(--ink)">C-0417</text><text x="152" y="56" style="font-size:12px;fill:var(--ink)">Area 3</text><text x="152" y="72" style="font-size:12px;fill:var(--ink)">R-5520</text>',
+ c:'<rect x="4" y="6" width="120" height="84" rx="4" fill="var(--plane)" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/><rect x="20" y="22" width="88" height="52" rx="3" fill="var(--bg)" stroke="currentColor" stroke-width="2"/><path d="M30 36 l8 6 -8 6" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="44" y="46" width="30" height="3" fill="currentColor"/><path d="M128 48 H156" stroke="currentColor" stroke-width="2.5"/><path d="M150 42 L158 48 L150 54" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="166" y="26" width="64" height="44" rx="4" fill="#ff7a45"/><rect x="176" y="52" width="8" height="10" fill="#10152b"/><rect x="190" y="44" width="8" height="18" fill="#10152b"/><rect x="204" y="36" width="8" height="26" fill="#10152b"/>'};
+const opts=[
+ {k:"a",t:"Option 1",h:"Analysis inside your environment",d:"We work within an approved client computer, cloud environment, virtual desktop, database or BI workspace. Where practical, access is read-only, restricted to agreed systems and removable at the end. Raw records stay with you."},
+ {k:"b",t:"Option 2",h:"Limited, de-identified extract",d:"You share only the fields the analysis needs, with identifying details removed or replaced. Names become anonymous IDs, addresses become service areas, and transaction numbers become random record IDs."},
+ {k:"c",t:"Option 3",h:"Client-run analysis",d:"We provide an approved template, script, notebook or documented process that your authorised representative runs in your environment. You share only approved summaries, aggregated metrics or final outputs."}];
+$('opts').innerHTML=opts.map(o=>`<article class="opt"><svg viewBox="0 0 240 96" preserveAspectRatio="xMinYMid meet" aria-hidden="true">${ic[o.k]}</svg><span class="tag">${o.t}</span><h3>${o.h}</h3><p>${o.d}</p></article>`).join('');
+$('f-opt').innerHTML+=opts.map(o=>`<option>${o.t}: ${o.h}</option>`).join('');
+
+const pr=[
+ ["Data minimisation","Only information required for the documented purpose is requested."],
+ ["Purpose limitation","Approved information is used only for the agreed engagement."],
+ ["Restricted access","Access is limited by scope, role, system and duration where technically practical."],
+ ["No unauthorised reuse","Client data is not sold, used for unrelated marketing, or added to another client's analysis."],
+ ["No model training","Client information is not used to train a shared or public AI model without explicit written permission."],
+ ["Controlled retention","Retention, return, archival and deletion arrangements are documented before work begins."],
+ ["Transparent tools","Material third-party platforms and processing arrangements are discussed before use."],
+ ["Your ownership","You retain ownership and control of your business data."]];
+$('princ').innerHTML=pr.map(p=>`<div><dt>${p[0]}</dt><dd>${p[1]}</dd></div>`).join('');
+
+const no=["Passwords or authentication secrets","Social Security numbers","Complete payment-card information","Bank-account credentials","Medical or health information","Personal employee notes","Unrelated customer communications","Information outside the approved scope"];
+$('nolist').innerHTML=no.map(n=>`<li>${n}</li>`).join('');
+
+const st=[
+ ["Confidential discovery conversation","Define the business question, available systems, decision makers, desired outputs and privacy requirements. No raw data required."],
+ ["Written data and security plan","Document the minimum fields, access method, intended tools, deliverables, responsibilities and data-retention arrangements."],
+ ["Limited data review","A small approved sample or controlled system review confirms whether the information can support the requested analysis."],
+ ["Analysis and validation","Examine approved information, record material limitations, test key calculations and validate major findings before presentation."],
+ ["Findings and management review","Deliver the agreed dashboard, report and review session, with evidence-based observations and recommendations."],
+ ["Project closure","Remove or revoke access as agreed. Return, retain or delete project information under the engagement agreement."]];
+$('steps').innerHTML=st.map(s=>`<li><h3>${s[0]}</h3><p class="muted">${s[1]}</p></li>`).join('');
+
+const pl=["One business unit","Up to two approved data sources","Up to six months of available records","One management dashboard","One findings report","One review meeting","One limited revision","Agreed project-closure steps"];
+$('pilotlist').innerHTML=pl.map(p=>`<li>${p}</li>`).join('');
+$('yr').textContent=new Date().getFullYear();
+
+/* hero diagram */
+const s=$('ps');
+const ids=["C-0417","C-1182","C-0093","C-2210","C-0764","C-1539","C-0881","C-1925","C-0352","C-1007","C-2046","C-0619"];
+const draw=()=>{
+ const W=s.clientWidth,H=s.clientHeight;if(!W||!H)return;
+ let seed=11;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
+ const narrow=W<640,m=Math.max(16,W*.05),t=30;
+ let ex,ey,ew,eh,dx,dy,dw,dh;
+ if(narrow){ex=m;ey=t;ew=W-2*m;eh=(H-t-24)*.55;dx=m+ew*.12;dw=ew*.76;dy=ey+eh+44;dh=H-dy-16}
+ else{ex=m;ey=t;eh=H-t-28;ew=(W-2*m)*.55;dx=ex+ew+(W-2*m)*.11;dw=W-m-dx;dh=Math.min(eh,300);dy=ey+(eh-dh)/2}
+ let g=`<rect x="${ex}" y="${ey}" width="${ew}" height="${eh}" rx="6" fill="var(--plane)" stroke="var(--ink)" stroke-width="2" stroke-dasharray="10 6"/>`;
+ g+=`<text x="${ex+18}" y="${ey+28}" style="fill:var(--ink);font-weight:600;font-size:15px">Your environment</text><text x="${ex+18}" y="${ey+47}">Raw records stay here</text>`;
+ const rh=narrow?19:22,top=ey+68,rows=Math.max(3,Math.min(ids.length,Math.floor((eh-84)/rh)));
+ const cols=narrow?1:(ew>520?2:1),cw=(ew-36)/cols;
+ for(let c=0;c<cols;c++)for(let r=0;r<rows;r++){
+  const x=ex+18+c*cw,y=top+r*rh,id=ids[(r+c*5)%ids.length];
+  g+=`<text x="${x}" y="${y+11}" style="font-size:12.5px">${id}</text>`;
+  const bx=x+60,avail=cw-80;let cx=bx;
+  for(let k=0;k<3;k++){const w=avail*(.12+rnd()*.18);g+=`<rect x="${cx}" y="${y+2}" width="${w}" height="10" fill="var(--ink)" opacity="${.85-k*.25}"/>`;cx+=w+6}
+ }
+ /* lock on boundary */
+ const lx=narrow?ex+ew/2:ex+ew,ly=narrow?ey+eh:ey+eh/2;
+ /* path out */
+ const flowPath=narrow?`M${lx},${ly+16} L${lx},${dy-6}`:`M${lx+18},${ly} L${dx-8},${ly}`;
+ g+=`<path d="${flowPath}" stroke="var(--ink)" stroke-width="3" stroke-dasharray="8 4" class="flow" fill="none"/>`;
+ g+=narrow?`<path d="M${lx-7},${dy-14} L${lx},${dy-4} L${lx+7},${dy-14}" fill="none" stroke="var(--ink)" stroke-width="3"/>`:`<path d="M${dx-16},${ly-7} L${dx-6},${ly} L${dx-16},${ly+7}" fill="none" stroke="var(--ink)" stroke-width="3"/>`;
+ g+=`<rect x="${lx-14}" y="${ly-10}" width="28" height="22" rx="3" fill="var(--ink)"/><path d="M${lx-8},${ly-10} v-6 a8 8 0 0 1 16 0 v6" fill="none" stroke="var(--ink)" stroke-width="3"/><circle cx="${lx}" cy="${ly+1}" r="3" fill="#ff7a45"/>`;
+ if(!narrow){const mx=(lx+dx)/2;g+=`<text x="${mx}" y="${ly-18}" text-anchor="middle" style="fill:var(--ink);font-weight:600">Approved</text><text x="${mx}" y="${ly+26}" text-anchor="middle">summaries only</text>`}
+ else g+=`<text x="${lx+22}" y="${(ly+dy)/2+4}" style="fill:var(--ink);font-weight:600">Approved summaries only</text>`;
+ /* dashboard */
+ g+=`<rect x="${dx+6}" y="${dy+6}" width="${dw}" height="${dh}" rx="6" fill="var(--rule)"/><rect x="${dx}" y="${dy}" width="${dw}" height="${dh}" rx="6" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/>`;
+ g+=`<text x="${dx+18}" y="${dy+28}" style="fill:var(--ink);font-weight:600;font-size:15px">Management dashboard</text><text x="${dx+18}" y="${dy+47}">Margin by service</text>`;
+ const bars=[["Service A",.82],["Service B",.64],["Service C",.31],["Service D",.47]];
+ const bt=dy+62,bh=Math.max(14,Math.min(26,(dh-80)/bars.length-8)),lw=78,bw=dw-36-lw-10;
+ bars.forEach((b,i)=>{const y=bt+i*(bh+10);if(y+bh>dy+dh-10)return;
+  g+=`<text x="${dx+18}" y="${y+bh/2+5}" style="font-size:13px">${b[0]}</text><rect x="${dx+18+lw}" y="${y}" width="${bw*b[1]}" height="${bh}" fill="${i===2?'#ff7a45':'var(--ink)'}"/>`;
+  if(i===2&&bw>140)g+=`<text x="${dx+18+lw+bw*b[1]+8}" y="${y+bh/2+5}" style="fill:var(--ink);font-weight:600;font-size:13px">Look here</text>`;
+ });
+ s.innerHTML=g;
+};
+const ro=new ResizeObserver(draw);ro.observe(s);draw();
+
+/* form */
+/* Paste your Web3Forms access key here (free at web3forms.com) */
+const ACCESS_KEY="9b414d77-8df7-4e3a-822b-28b200aed854";
+const form=$('f'),err=$('f-err'),done=$('done'),out=$('out'),mail=$('mail'),thanks=$('thanks'),send=$('f-send');
+const v=id=>$(id).value.trim();
+form.addEventListener('submit',async e=>{
+ e.preventDefault();
+ const n=v('f-name'),em=v('f-email'),m=v('f-msg');
+ if(!n||!em||!m){err.textContent='Please add your name, email and a short description.';return}
+ if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){err.textContent='That email address doesn’t look right.';return}
+ err.textContent='';
+ const body=`Name: ${n}\nBusiness: ${v('f-co')||'—'}\nEmail: ${em}\nPhone: ${v('f-tel')||'—'}\nPreferred option: ${v('f-opt')}\n\n${m}`;
+ out.textContent=body;
+ mail.href='mailto:simplebusinessstra@gmail.com?subject='+encodeURIComponent('Discovery call request from '+n)+'&body='+encodeURIComponent(body);
+ if($('f-bot').checked)return;
+ done.classList.remove('show');thanks.classList.remove('show');
+ send.disabled=true;send.textContent='Sending…';
+ try{
+  if(ACCESS_KEY.startsWith('PASTE'))throw new Error('no key');
+  const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+   body:JSON.stringify({access_key:ACCESS_KEY,subject:'Discovery call request from '+n,from_name:'Simple Business Strategies website',name:n,email:em,business:v('f-co'),phone:v('f-tel'),preferred_option:v('f-opt'),message:m})});
+  const j=await r.json();
+  if(!j.success)throw new Error(j.message||'failed');
+  form.reset();thanks.classList.add('show');thanks.scrollIntoView({block:'nearest'});
+ }catch(_){done.classList.add('show');done.scrollIntoView({block:'nearest'})}
+ finally{send.disabled=false;send.textContent='Send message'}
+});
+$('copy').addEventListener('click',async e=>{
+ try{await navigator.clipboard.writeText(out.textContent);e.target.textContent='Copied'}catch(_){e.target.textContent='Select the text above to copy'}
+});
+}
+</script>
+</body>
+</html>
