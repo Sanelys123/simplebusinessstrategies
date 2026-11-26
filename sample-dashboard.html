@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sample HVAC Dashboard</title>
-<meta name="description" content="Sample management dashboard for an HVAC company, built with fictional data by Simple Business Strategies LLC.">
+<title>Sample Industry Dashboards</title>
+<meta name="description" content="Sample management dashboards for HVAC, restaurant, automotive, insurance and landscaping businesses, built with fictional data by Simple Business Strategies LLC.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* VOICE work, for an HVAC owner: exact, but made to stop them in their tracks
-   IDEA the trade's own world: air moving through ductwork, and the weather that drives the phone
-   PICTURE the Profit Duct (every $100 billed flowing through a duct, leaks dripping out) and the Margin Weather Map (daily margin as isotherms, heat wave and callback storms marked)
+/* VOICE work, for a small-business owner: exact, but made to stop them in their tracks
+   IDEA one control room, five trades: pick your industry and the same two signature views retell your business
+   PICTURE the Profit Flow (every $100 flowing through a pipe, leaks dripping out) and the Margin Weather Map (daily margin as isotherms under the outside force that drives it)
    COLOUR white, ink, cobalt #2347d6 carries the money that stays, tangerine #ff7a45 marks leaks you can control; night #0f1428
    TYPE Open Sans 700 + Open Sans
-   LAYOUT finding as title, KPI row, duct full width, weather map full width, then technicians and leads; phone turns the duct vertical */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f1428);--ink:light-dark(#10152b,#eef1fb);--mute:light-dark(#4f5672,#a7afcb);--plane:light-dark(#eef2fd,#161d38);--rule:light-dark(#d3daf2,#2a3355);--blue:light-dark(#2347d6,#5b7cff);--soft:light-dark(#aab7de,#3d4a80);--acc:#ff7a45}
+   LAYOUT industry picker, finding as title, KPIs, flow full width, weather map full width, then staff and leads; phone turns the flow vertical */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f1428);--ink:light-dark(#10152b,#eef1fb);--mute:light-dark(#4f5672,#a7afcb);--plane:light-dark(#eef2fd,#161d38);--rule:light-dark(#d3daf2,#2a3355);--blue:light-dark(#2347d6,#5b7cff);--soft:light-dark(#aab7de,#3d4a80);--acc:#ff7a45;--warn:light-dark(#c2410c,#ff9a6e)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Open Sans",system-ui,sans-serif;overflow-x:clip}
@@ -28,6 +28,14 @@ h2{font-size:21px;margin-bottom:4px}
 .sample{background:var(--acc);color:#10152b;font-weight:600;font-size:14.5px;padding:10px max(5vw,16px)}
 .sample .wrap{display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between}
 .sample a{color:#10152b}
+.picker{background:var(--blue);color:#fff;padding:22px max(5vw,16px) 24px}
+.picker p{margin:0 0 12px;font-weight:600;font-size:16px;color:#dbe2fd}
+.inds{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.ind{display:flex;align-items:center;gap:10px;min-height:56px;padding:10px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;font:inherit;font-weight:700;font-size:16px;cursor:pointer;text-align:left}
+.ind svg{width:26px;height:26px;flex:none}
+.ind:hover{background:rgba(255,255,255,.1)}
+.ind[aria-pressed=true]{background:#fff;color:#1a36a8;border-color:#fff}
+.ind:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;color:var(--mute);font-size:15px;margin-bottom:14px}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
 .chip{min-height:42px;padding:0 16px;border-radius:40px;border:1.5px solid var(--rule);background:var(--bg);color:var(--ink);font:inherit;font-size:15px;cursor:pointer}
@@ -39,17 +47,17 @@ h2{font-size:21px;margin-bottom:4px}
 .kpi span{display:block;color:var(--mute);font-size:14px}
 .kpi b{display:block;font-weight:700;font-size:clamp(23px,2.5vw,30px);letter-spacing:-.02em;white-space:nowrap}
 .kpi small{font-size:13.5px;color:var(--mute)}
-.kpi.bad b{color:light-dark(#c2410c,#ff9a6e)}
+.kpi.bad b{color:var(--warn)}
 .panel{border-top:2px solid var(--ink);padding-top:14px;margin-top:40px}
-.sub{color:var(--mute);font-size:15px;margin:0 0 12px;max-width:70ch}
+.sub{color:var(--mute);font-size:15px;margin:0 0 12px;max-width:72ch}
 .new{display:inline-block;background:var(--acc);color:#10152b;font-size:13px;font-weight:700;border-radius:4px;padding:1px 8px;margin-left:8px;vertical-align:3px}
-.duct{position:relative;height:var(--dh,380px)}
+.duct{position:relative;height:var(--dh,400px)}
 .duct svg{position:absolute;inset:0;width:100%;height:100%}
 svg text{font-family:"Open Sans",sans-serif}
 .legend{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:14px;color:var(--mute);margin-top:8px}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
 .wx{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);gap:0 8px}
-.wx .days{display:grid;grid-template-rows:repeat(6,1fr);font-size:13px;color:var(--mute);align-items:center;height:270px;margin-top:84px}
+.wx .days{display:grid;font-size:13px;color:var(--mute);align-items:center;height:270px;margin-top:84px}
 .temp{height:76px;position:relative;margin-bottom:8px}
 .temp svg{position:absolute;inset:0;width:100%;height:100%}
 .mapbox{position:relative;height:270px;border-radius:8px;overflow:hidden;cursor:crosshair}
@@ -59,10 +67,10 @@ svg text{font-family:"Open Sans",sans-serif}
 .tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13.5px;line-height:1.4;padding:8px 10px;border-radius:6px;white-space:nowrap;opacity:0;transition:opacity .12s;z-index:3}
 .scale{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--mute);flex-wrap:wrap;margin-top:10px}
 .scale .bar{width:220px;height:12px;border-radius:6px;background:linear-gradient(90deg,#1f3fbf,#8aa0ee,#f3f1ea,#ffb48e,#ff7a45)}
-.callout{margin-top:14px;font-size:15.5px;border-left:0;background:var(--plane);border-radius:8px;padding:12px 14px}
+.callout{margin-top:14px;font-size:15.5px;background:var(--plane);border-radius:8px;padding:12px 14px}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:40px 48px}
 .rows{display:grid;gap:12px}
-.row{display:grid;grid-template-columns:8.5em minmax(0,1fr) 4.2em;gap:12px;align-items:center;font-size:15px}
+.row{display:grid;grid-template-columns:10em minmax(0,1fr) 4.2em;gap:12px;align-items:center;font-size:15px}
 .row .track{height:22px;background:var(--plane);border-radius:3px;overflow:hidden}
 .row .bar{height:100%;background:var(--blue)}
 .row.flag .bar{background:var(--acc)}
@@ -82,51 +90,65 @@ tr.flag td{background:color-mix(in srgb,var(--acc) 16%,transparent)}
 .foot{font-size:14.5px;color:var(--mute)}
 .foot .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 24px}
 .btn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:6px;background:var(--blue);color:#fff;text-decoration:none;font-weight:600}
+@media(max-width:1000px){.inds{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}.actions{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:600px){.kpi+.kpi{padding-left:0;border-left:0}.kpi{border-bottom:1px solid var(--rule)}.row{grid-template-columns:7em minmax(0,1fr) 3.8em;font-size:14px}table{font-size:13.5px}th,td{padding:7px 5px}.wx{grid-template-columns:34px minmax(0,1fr)}.wx .days{font-size:12.5px}}
+@media(max-width:600px){.inds{grid-template-columns:repeat(2,minmax(0,1fr))}.ind{font-size:15px;padding:8px 10px}.kpi+.kpi{padding-left:0;border-left:0}.kpi{border-bottom:1px solid var(--rule)}.row{grid-template-columns:8em minmax(0,1fr) 3.8em;font-size:14px}table{font-size:13.5px}th,td{padding:7px 5px}.wx{grid-template-columns:34px minmax(0,1fr)}.wx .days{font-size:12.5px}}
 </style>
 </head>
 <body>
 
-<div class="sample"><div class="wrap"><span>Sample dashboard. All figures are fictional and for demonstration only.</span><a href="index.html">Back to Simple Business Strategies</a></div></div>
+<div class="sample"><div class="wrap"><span>Sample dashboards. All businesses and figures are fictional and for demonstration only.</span><a href="index.html">Back to Simple Business Strategies</a></div></div>
+
+<nav class="picker" aria-label="Choose an industry">
+  <div class="wrap">
+    <p>See the dashboard for your kind of business</p>
+    <div class="inds" id="inds">
+      <button class="ind" type="button" data-k="hvac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2"/><path d="M12 10c0-4 1-7 4-7 2 0 2 3 0 5M14 12c4 0 7 1 7 4 0 2-3 2-5 0M12 14c0 4-1 7-4 7-2 0-2-3 0-5M10 12c-4 0-7-1-7-4 0-2 3-2 5 0"/></svg>HVAC</button>
+      <button class="ind" type="button" data-k="restaurant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M17 21V3c-2 1-3 4-3 8h3"/></svg>Restaurant</button>
+      <button class="ind" type="button" data-k="automotive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16v-4l2-5h14l2 5v4z"/><path d="M3 12h18"/><circle cx="7.5" cy="16.5" r="2"/><circle cx="16.5" cy="16.5" r="2"/></svg>Automotive</button>
+      <button class="ind" type="button" data-k="insurance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Insurance</button>
+      <button class="ind" type="button" data-k="landscaping"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-14 15-15-1 10-7 15-15 15z"/><path d="M5 19l8-8"/></svg>Landscaping</button>
+    </div>
+  </div>
+</nav>
 
 <main class="band wrap">
-  <div class="top"><span>Comfort Air Services (fictional) · 1 June to 29 November 2026 · 5 technicians</span><span>Private Profit Checkup · management dashboard</span></div>
+  <div class="top"><span id="company"></span><span>Private Profit Checkup · management dashboard</span></div>
   <h1 id="headline">Loading…</h1>
-  <div class="filters" role="group" aria-label="Filter by job type" id="filters"></div>
+  <div class="filters" role="group" aria-label="Filter by type of work" id="filters"></div>
   <div class="kpis" id="kpis"></div>
 
   <section class="panel">
-    <h2>The Profit Duct<span class="new">Signature view</span></h2>
-    <p class="sub">Follow every $100 billed as it moves through the business. Each stream that drips out is a cost; the air that reaches the vent on the right is the margin you keep. Hover a stream for the full figure.</p>
-    <div class="duct" id="duct"><svg id="ductsvg" role="img" aria-label="Flow diagram of where each $100 billed goes"></svg></div>
+    <h2><span id="flowTitle">The Profit Flow</span><span class="new">Signature view</span></h2>
+    <p class="sub" id="flowSub"></p>
+    <div class="duct" id="duct"><svg id="ductsvg" role="img" aria-label="Flow diagram of where each $100 goes"></svg></div>
     <div class="legend"><span><i style="background:var(--blue)"></i>Margin kept</span><span><i style="background:var(--soft)"></i>Cost of doing the work</span><span><i style="background:var(--acc)"></i>Leak management can control</span></div>
   </section>
 
   <section class="panel">
     <h2>The Margin Weather Map<span class="new">Signature view</span></h2>
-    <p class="sub">Each day's estimated margin drawn like a weather map: warm orange is a profitable day, cold blue a poor one, with contour lines every few points. The strip on top is the outdoor high temperature. Hover any day for its numbers.</p>
+    <p class="sub" id="wxSub"></p>
     <div class="wx">
-      <div class="days" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+      <div class="days" id="daylabels" aria-hidden="true"></div>
       <div>
-        <div class="temp"><svg id="tempsvg" aria-label="Daily high temperature"></svg></div>
+        <div class="temp"><svg id="tempsvg" role="img" aria-label="Daily driver strip"></svg></div>
         <div class="mapbox" id="mapbox"><canvas id="map" role="img" aria-label="Weather-map style chart of daily margin from June to November"></canvas><div class="tip" id="tip"></div></div>
         <div class="months" id="months"></div>
       </div>
     </div>
-    <div class="scale"><span id="lo"></span><span class="bar"></span><span id="hi"></span><span style="margin-left:12px">◎ Callback storm: 3 or more return visits in one day</span></div>
+    <div class="scale"><span id="lo"></span><span class="bar"></span><span id="hi"></span><span style="margin-left:12px" id="stormKey"></span></div>
     <p class="callout" id="wxnote"></p>
   </section>
 
   <div class="grid">
     <section class="panel">
-      <h2>Lead sources</h2>
-      <p class="sub">Share of estimates that became paid jobs.</p>
+      <h2 id="leadTitle">Lead sources</h2>
+      <p class="sub" id="leadSub"></p>
       <div class="rows" id="leads"></div>
     </section>
     <section class="panel">
-      <h2>Technician performance</h2>
-      <p class="sub">Shown by ID only. The highest callback rate is highlighted.</p>
+      <h2 id="staffTitle">Team performance</h2>
+      <p class="sub" id="staffSub"></p>
       <div class="scroll"><table id="techs"></table></div>
     </section>
   </div>
@@ -150,325 +172,342 @@ tr.flag td{background:color-mix(in srgb,var(--acc) 16%,transparent)}
 <script>
 {
 const $=id=>document.getElementById(id);
-const RATE=45,DAYS=182,START=Date.UTC(2026,5,1);
-const types={
- Maintenance:{price:189,parts:18,est:1.25,over:1.03},
- Repair:{price:430,parts:115,est:2.5,over:1.07},
- Install:{price:7600,parts:4300,est:14,over:1.16},
- Diagnostic:{price:99,parts:0,est:1,over:1.04}};
-const techs=[{id:"Tech A",w:1,over:1,cb:.02},{id:"Tech B",w:1,over:.98,cb:.018},{id:"Tech C",w:1,over:1.03,cb:.025},{id:"Tech D",w:1,over:1.2,cb:.075},{id:"Tech E",w:1,over:1.01,cb:.025}];
-const leads=[{s:"Repeat customer",w:.78,n:.34},{s:"Referral",w:.62,n:.18},{s:"Website",w:.41,n:.2},{s:"Google Ads",w:.19,n:.22},{s:"Yard signs",w:.33,n:.06}];
-let seed=20261125;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
-const pois=l=>{let L=Math.exp(-l),k=0,p=1;do{k++;p*=rnd()}while(p>L);return k-1};
-const pick=(a,key)=>{let r=rnd()*a.reduce((s,x)=>s+x[key],0),c=0;for(const x of a){c+=x[key];if(r<=c)return x}return a[a.length-1]};
-const heatWave=[49,68];
-
-/* ---- simulate days and jobs ---- */
-const days=[],jobs=[];
-for(let d=0;d<DAYS;d++){
- const dow=d%7,date=new Date(START+d*864e5);
- let t=97-0.0019*(d-55)**2+(rnd()-.5)*6;
- if(d>=heatWave[0]&&d<=heatWave[1])t+=6;
- if(d>=165&&d<=170)t-=10;
- t=Math.round(t);
- const day={d,dow,date,t,open:dow<6};
- days.push(day);
- if(!day.open)continue;
- const f=(dow===5?.5:dow===0?1.2:1);
- const cool=Math.max(0,t-88)*.9,heat=Math.max(0,62-t)*.6;
- const n={Maintenance:pois((t>95?2.3:3.2)*f),Repair:pois((1.5+cool+heat)*f),Install:pois((.25+.02*Math.max(0,t-90))*f),Diagnostic:pois((1+.4*(cool+heat))*f)};
- const list=[];
- for(const k in n)for(let i=0;i<n[k];i++)list.push(k);
- const cap=dow===5?18:45;
- const estH=list.reduce((s,k)=>s+types[k].est,0),load=estH/cap;
- const rush=1+Math.max(0,load-.85)*.35;
- const dj=list.map(k=>{
-  const T=types[k],tech=pick(techs,'w'),lead=pick(leads,'n');
-  const price=T.price*(.85+rnd()*.3);
-  let disc=0;
-  if(lead.s==="Repeat customer"&&rnd()<.6)disc=price*.1;
-  else if(lead.s==="Google Ads"&&rnd()<.3)disc=price*.15;
-  else if(rnd()<.1)disc=price*.05;
-  const parts=T.parts*(.8+rnd()*.4);
-  const act=T.est*T.over*tech.over*rush*(.9+rnd()*.2);
-  const cb=rnd()<tech.cb*(1+2*Math.max(0,load-.9))*(k==="Install"?1.5:1);
-  const cbCost=cb?(k==="Maintenance"||k==="Diagnostic"?1:1.6)*RATE+parts*.25:0;
-  return {d,type:k,tech:tech.id,lead:lead.s,price,disc,parts,est:T.est,act,cb,cbCost,ot:0};
- });
- const actH=dj.reduce((s,j)=>s+j.act,0),otH=Math.max(0,actH-cap);
- dj.forEach(j=>{j.ot=otH*(j.act/actH)*RATE*.5;jobs.push(j)});
- day.cap=cap;day.load=load;
-}
-const leadStats=leads.map(l=>{const won=jobs.filter(j=>j.lead===l.s).length;return {s:l.s,won,est:Math.round(won/l.w)}});
-
-/* ---- helpers ---- */
+const DAYS=182,WEEKS=26,START=Date.UTC(2026,5,1);
+const DOW=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const mkRnd=s=>()=>(s=s*16807%2147483647)/2147483647;
+const pois=(l,r)=>{let L=Math.exp(-l),k=0,p=1;do{k++;p*=r()}while(p>L);return k-1};
+const pickW=(a,r)=>{let t=r()*a.reduce((s,x)=>s+(x.w||1),0),c=0;for(const x of a){c+=x.w||1;if(t<=c)return x}return a[a.length-1]};
 const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
 const money=v=>Math.abs(v)>=1e6?'$'+(v/1e6).toFixed(2)+'M':Math.abs(v)>=1e4?'$'+Math.round(v/1e3)+'k':'$'+Math.round(v).toLocaleString();
 const pct=v=>(v*100).toFixed(1)+'%';
 const fmtD=dt=>dt.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',timeZone:'UTC'});
+const dayDate=d=>new Date(START+d*864e5);
+const spread=(list,total,key)=>{const s=sum(list,x=>x.price)||1;list.forEach(x=>x.c[key]=(x.c[key]||0)+total*x.price/s)};
+
+/* ================= INDUSTRIES ================= */
+const IND={};
+
+IND.hvac={one:'job',label:'HVAC',company:'Comfort Air Services (fictional) · 5 technicians',noun:'jobs',billed:'billed',
+ flowTitle:'The Profit Duct',flowSub:'Follow every $100 billed as it moves through the business like air through a duct. Each stream that drips out is a cost; what reaches the vent is the margin you keep.',
+ rows:[0,1,2,3,4,5],types:['Maintenance','Repair','Install','Diagnostic'],disc:'Discounts',
+ leaks:[['Discounts',1],['Parts and equipment',0],['Planned labor',0],['Labor over estimate',1],['Overtime premium',1],['Callback rework',1]],
+ prob:{kpi:'Callback rate',note:'Return visits within 30 days',col:'Callback rate',one:'callback',many:'callbacks',storm:'Callback storm: 3 or more return visits in one day',min:3,stormName:'callback storms'},
+ staff:{title:'Technician performance',sub:'Shown by ID only. The highest callback rate is highlighted.',col:'Technician'},
+ driver:{label:'Daily high, °F',style:'line',min:62,max:108,fmt:v=>Math.round(v)+'°F',ev:[49,68],evLabel:'Heat wave',short:'Heat',desc:'The strip on top is the outdoor high temperature.'},
+ evLeak:'Overtime premium',
+ leadsT:['Lead sources','Share of estimates that became paid jobs.',[['Repeat customer',.78],['Referral',.62],['Website',.41],['Yard signs',.33],['Google Ads',.19]]],
+ evAction:(v,ev)=>({t:'Plan for the next heat wave',p:`Overtime premium cost ${money(v)} this season, ${money(ev)} of it in one heat wave. Book maintenance before June, add a surge price for same-day calls, and line up a standby subcontractor.`,e:'Watch: overtime hours per week when highs pass 100°F'}),
+ sim(r){
+  const T={Maintenance:[189,18,1.25,1.03],Repair:[430,115,2.5,1.07],Install:[7600,4300,14,1.16],Diagnostic:[99,0,1,1.04]};
+  const staff=[{id:'Tech A',o:1,cb:.02},{id:'Tech B',o:.98,cb:.018},{id:'Tech C',o:1.03,cb:.025},{id:'Tech D',o:1.2,cb:.075},{id:'Tech E',o:1.01,cb:.025}];
+  const days=[],tx=[];
+  for(let d=0;d<DAYS;d++){
+   const dow=d%7;let t=97-0.0019*(d-55)**2+(r()-.5)*6;if(d>=49&&d<=68)t+=6;if(d>=165&&d<=170)t-=10;
+   days.push({d,v:Math.round(t)});if(dow>5)continue;
+   const f=dow===5?.5:dow===0?1.2:1,cool=Math.max(0,t-88)*.9,heat=Math.max(0,62-t)*.6;
+   const n={Maintenance:pois((t>95?2.3:3.2)*f,r),Repair:pois((1.5+cool+heat)*f,r),Install:pois((.25+.02*Math.max(0,t-90))*f,r),Diagnostic:pois((1+.4*(cool+heat))*f,r)};
+   const cap=dow===5?18:45,list=[];for(const k in n)for(let i=0;i<n[k];i++)list.push(k);
+   const load=sum(list,k=>T[k][2])/cap,rush=1+Math.max(0,load-.85)*.35,dj=[];
+   list.forEach(k=>{const [p0,pa,est,ov]=T[k],s=staff[Math.floor(r()*5)],price=p0*(.85+r()*.3),parts=pa*(.8+r()*.4),act=est*ov*s.o*rush*(.9+r()*.2);
+    const disc=r()<.25?price*(r()<.5?.1:.15):0,cb=r()<s.cb*(1+2*Math.max(0,load-.9))*(k==='Install'?1.5:1);
+    dj.push({d,type:k,staff:s.id,price,p:cb,act,c:{'Discounts':disc,'Parts and equipment':parts,'Planned labor':est*45,'Labor over estimate':Math.max(0,act-est)*45,'Callback rework':cb?(k==='Maintenance'||k==='Diagnostic'?1:1.6)*45+parts*.25:0}})});
+   const actH=sum(dj,j=>j.act),ot=Math.max(0,actH-cap)*45*.5;dj.forEach(j=>{j.c['Overtime premium']=actH?ot*j.act/actH:0;tx.push(j)});
+  }
+  return {days,tx,staff:staff.map(s=>s.id)};
+ }};
+
+IND.restaurant={one:'ticket',label:'Restaurant',company:'Lakewood Table (fictional) · 42 seats · closed Mondays',noun:'tickets',billed:'in sales',
+ flowTitle:'The Profit Pour',flowSub:'Follow every $100 of sales as it pours through the restaurant. Each stream that drips out is a cost; what reaches the end is the margin you keep.',
+ rows:[1,2,3,4,5,6],types:['Dine-in','Takeout','Delivery','Catering'],disc:'Comps and discounts',
+ leaks:[['Comps and discounts',1],['Food cost',0],['Planned labor',0],['Overstaffing',1],['Food waste',1],['Delivery app fees',1],['Remakes',1]],
+ prob:{kpi:'Remake rate',note:'Orders remade or comped for a mistake',col:'Remake rate',one:'remake',many:'remakes',storm:'Remake storm: 5 or more remakes in one day',min:5,stormName:'remake storms'},
+ staff:{title:'Server performance',sub:'Shown by ID only. The highest remake rate is highlighted.',col:'Server'},
+ driver:{label:'Daily rainfall, inches',style:'bars',min:0,max:2.2,fmt:v=>v.toFixed(2)+' in rain',ev:[126,143],evLabel:'Rainy stretch',short:'Rain',desc:'The strip on top is daily rainfall.'},
+ evLeak:'Food waste',
+ leadsT:['Guest sources','Share of first-time guests who came back within 60 days.',[['Friend referral',.52],['Walk-in',.38],['Google search',.34],['Instagram',.29],['Delivery apps',.11]]],
+ evAction:(v,ev)=>({t:'Prep for the weather, not the weekday',p:`Food waste cost ${money(v)} this season, ${money(ev)} of it in the rainy stretch. Check the forecast when setting prep levels, and move a server to packing delivery orders on wet days.`,e:'Watch: food waste as a share of sales, daily'}),
+ sim(r){
+  const staff=[{id:'Server A',cb:.012},{id:'Server B',cb:.014},{id:'Server C',cb:.045},{id:'Server D',cb:.013},{id:'Server E',cb:.016}];
+  const base={1:70,2:80,3:95,4:150,5:175,6:125},sched={1:1150,2:1150,3:1250,4:1650,5:1800,6:1450};
+  const days=[],tx=[];
+  for(let d=0;d<DAYS;d++){
+   const dow=d%7,wet=d>=126&&d<=143;let rain=0;if(r()<(wet?.65:.16))rain=wet?.3+r()*1.5:.1+r()*1.1;
+   days.push({d,v:rain});if(dow===0)continue;
+   const rf=Math.min(1,rain),sf=(d>40&&d<90)?.92:1,b=base[dow]*sf,dj=[];
+   const add=(type,n,p0,fc)=>{for(let i=0;i<n;i++){const price=p0*(.75+r()*.5),s=staff[Math.floor(r()*5)],cb=r()<s.cb;
+    const comp=(type==='Dine-in'&&r()<.05)?price*.15:(type==='Takeout'&&r()<.06)?price*.1:0;
+    dj.push({d,type,staff:s.id,price,p:cb,c:{'Comps and discounts':comp,'Food cost':price*fc,'Delivery app fees':type==='Delivery'?price*.25:0,'Remakes':cb?price*fc*1.2:0}})}};
+   add('Dine-in',pois(b*.45*(1-.45*rf),r),62,.31);add('Takeout',pois(b*.15,r),26,.31);add('Delivery',pois(b*.12*(1+.9*rf),r),31,.31);add('Catering',pois(.12,r),950,.35);
+   const sales=sum(dj,j=>j.price),need=.26*sales,exp=b*.45*62+b*.15*26+b*.12*31;
+   spread(dj,Math.min(need,sched[dow]),'Planned labor');spread(dj,Math.max(0,sched[dow]-need),'Overstaffing');
+   const prep=.31*exp*1.08,used=sum(dj,j=>j.c['Food cost']);spread(dj,Math.max(0,prep-used)*1.0+sales*.008,'Food waste');
+   dj.forEach(j=>tx.push(j));
+  }
+  return {days,tx,staff:staff.map(s=>s.id)};
+ }};
+
+IND.automotive={one:'order',label:'Automotive',company:'Garland Road Auto Care (fictional) · 6 bays · 5 technicians',noun:'repair orders',billed:'billed',
+ flowTitle:'The Profit Flow',flowSub:'Follow every $100 billed as it flows through the shop. Each stream that drips out is a cost; what reaches the end is the margin you keep.',
+ rows:[0,1,2,3,4,5],types:['Oil and maintenance','Brakes','Tires','Diagnostics','Major repair'],disc:'Coupons and discounts',
+ leaks:[['Coupons and discounts',1],['Parts',0],['Technician pay',0],['Unbilled tech time',1],['Parts mis-orders',1],['Comebacks',1]],
+ prob:{kpi:'Comeback rate',note:'Cars back within 30 days for the same issue',col:'Comeback rate',one:'comeback',many:'comebacks',storm:'Comeback cluster: 2 or more in one day',min:2,stormName:'comeback clusters'},
+ staff:{title:'Technician performance',sub:'Shown by ID only. The highest comeback rate is highlighted.',col:'Technician'},
+ driver:{label:'Average parts wait, hours',style:'bars',min:0,max:18,fmt:v=>v.toFixed(1)+' h parts wait',ev:[99,118],evLabel:'Supplier backorder',short:'Backorder',desc:'The strip on top is how long the shop waited for parts each day.'},
+ evLeak:'Unbilled tech time',
+ leadsT:['Customer sources','Share of repair quotes the customer approved.',[['Repeat customers',.82],['Fleet accounts',.74],['Dealer referrals',.58],['Google Maps',.47],['Coupon mailers',.31]]],
+ evAction:(v,ev)=>({t:'Get ahead of parts delays',p:`Unbilled tech time cost ${money(v)} this season, ${money(ev)} of it during the supplier backorder. Set up a second parts supplier and keep the 20 fastest-moving parts on the shelf.`,e:'Watch: unbilled hours per technician, weekly'}),
+ sim(r){
+  const T={'Oil and maintenance':[89,30,.6,7],'Brakes':[420,140,2.2,2.2],'Tires':[640,430,1.2,1.6],'Diagnostics':[160,0,1.2,2.5],'Major repair':[1650,700,8,.7]};
+  const staff=[{id:'Tech A',cb:.015},{id:'Tech B',cb:.018},{id:'Tech C',cb:.06},{id:'Tech D',cb:.016},{id:'Tech E',cb:.02}];
+  const days=[],tx=[];
+  for(let d=0;d<DAYS;d++){
+   const dow=d%7,bo=d>=99&&d<=118,wait=bo?10+r()*7:2+r()*2.5;
+   days.push({d,v:wait});if(dow>5)continue;
+   const f=dow===5?.6:dow===0?1.15:1;
+   for(const k in T){const [p0,pa,h,n0]=T[k],n=pois(n0*f,r);for(let i=0;i<n;i++){
+    const price=p0*(.85+r()*.3),parts=pa*(.8+r()*.4),s=staff[Math.floor(r()*5)],cb=r()<s.cb;
+    const coup=k==='Oil and maintenance'?(r()<.35?15:0):(r()<.08?price*.1:0);
+    const idle=(pa>0?wait*.12:0)+(k==='Diagnostics'?h*.3:0);
+    const mis=pa>0&&r()<.05*(1+wait/8)?parts*.15+20:0;
+    tx.push({d,type:k,staff:s.id,price,p:cb,c:{'Coupons and discounts':coup,'Parts':parts,'Technician pay':h*34,'Unbilled tech time':idle*34,'Parts mis-orders':mis,'Comebacks':cb?1.5*34+parts*.3:0}})}}
+  }
+  return {days,tx,staff:staff.map(s=>s.id)};
+ }};
+
+IND.insurance={one:'policy',label:'Insurance',company:'Lone Star Shield Insurance Agency (fictional) · 5 producers',noun:'policies',billed:'earned in commission',
+ flowTitle:'The Profit Flow',flowSub:'Follow every $100 of commission as it flows through the agency. Each stream that drips out is a cost; what reaches the end is the margin you keep.',
+ rows:[0,1,2,3,4],types:['Auto','Home','Commercial','Life'],disc:null,
+ leaks:[['Producer splits',0],['Service staff time',0],['Bought leads',1],['Claims-call overload',1],['Cancellation chargebacks',1],['Application rework',1]],
+ prob:{kpi:'Early cancellation rate',note:'Policies cancelled within 90 days',col:'Cancel rate',one:'early cancellation',many:'early cancellations',storm:'Cancellation cluster: 3 or more in one day',min:3,stormName:'cancellation clusters'},
+ staff:{title:'Producer performance',sub:'Shown by ID only. The highest early-cancellation rate is highlighted.',col:'Producer'},
+ driver:{label:'Claims calls per day',style:'bars',min:0,max:60,fmt:v=>Math.round(v)+' claims calls',ev:[13,33],evLabel:'Hailstorm claims surge',short:'Hail',desc:'The strip on top is the number of claims calls the office handled each day.'},
+ evLeak:'Claims-call overload',
+ leadsT:['Lead sources','Share of quotes that became bound policies.',[['Renewal cross-sell',.55],['Referrals',.48],['Walk-in',.39],['Website',.21],['Bought internet leads',.07]]],
+ evAction:(v,ev)=>({t:'Staff up after big storms',p:`Claims calls cost ${money(v)} in unpaid service time this season, ${money(ev)} of it during the hailstorm surge. Route claims calls to carrier lines and bring in a temporary service rep after major storms.`,e:'Watch: claims calls per service rep, daily'}),
+ sim(r){
+  const T={Auto:[140,6],Home:[210,3.2],Commercial:[650,.9],Life:[950,.35]};
+  const staff=[{id:'Producer A',cb:.045},{id:'Producer B',cb:.05},{id:'Producer C',cb:.04},{id:'Producer D',cb:.055},{id:'Producer E',cb:.13}];
+  const days=[],tx=[];
+  for(let d=0;d<DAYS;d++){
+   const dow=d%7,hail=d>=13&&d<=33,calls=hail?(55-(d-13)*1.4)+r()*10:5+r()*7;
+   days.push({d,v:dow>4?0:calls});if(dow>4)continue;
+   const dj=[];
+   for(const k in T){const [c0,n0]=T[k],n=pois(n0,r);for(let i=0;i<n;i++){
+    const price=c0*(.8+r()*.4),s=staff[Math.floor(r()*5)],cb=r()<s.cb,bought=(k==='Auto'||k==='Home')&&r()<.3;
+    dj.push({d,type:k,staff:s.id,price,p:cb,c:{'Producer splits':price*.35,'Service staff time':30,'Bought leads':bought?95:0,'Cancellation chargebacks':cb?price*.75:0,'Application rework':r()<.06?45:0}})}}
+   spread(dj,calls*14,'Claims-call overload');dj.forEach(j=>tx.push(j));
+  }
+  return {days,tx,staff:staff.map(s=>s.id)};
+ }};
+
+IND.landscaping={one:'visit',label:'Landscaping',company:'Greenline Grounds (fictional) · 5 crews',noun:'visits',billed:'billed',
+ flowTitle:'The Profit Flow',flowSub:'Follow every $100 billed as it flows through the business like water through an irrigation line. Each stream that drips out is a cost; what reaches the end is the margin you keep.',
+ rows:[0,1,2,3,4,5],types:['Mowing','Cleanup','Irrigation','Installs'],disc:'Discounts',
+ leaks:[['Discounts',1],['Materials',0],['Planned crew labor',0],['Idle crew pay',1],['Drive time',1],['Redo visits',1]],
+ prob:{kpi:'Redo rate',note:'Visits redone after a complaint',col:'Redo rate',one:'redo visit',many:'redo visits',storm:'Complaint storm: 3 or more redo visits in one day',min:3,stormName:'complaint storms'},
+ staff:{title:'Crew performance',sub:'The highest redo rate is highlighted.',col:'Crew'},
+ driver:{label:'Daily rainfall, inches',style:'bars',min:0,max:2.2,fmt:v=>v.toFixed(2)+' in rain',ev:[121,138],evLabel:'Wet stretch',short:'Wet',desc:'The strip on top is daily rainfall.'},
+ evLeak:'Idle crew pay',
+ leadsT:['Lead sources','Share of quotes that became signed contracts.',[['HOA contracts',.66],['Neighbor referrals',.58],['Nextdoor',.37],['Google Ads',.17],['Door hangers',.12]]],
+ evAction:(v,ev)=>({t:'Build a rain-day plan',p:`Idle crew pay cost ${money(v)} this season, ${money(ev)} of it in the wet stretch. Line up shop and equipment work for rain days, and add a weather-delay clause to contracts.`,e:'Watch: paid crew hours not on a job, weekly'}),
+ sim(r){
+  const staff=[{id:'Crew A',cb:.012,dr:1},{id:'Crew B',cb:.014,dr:1.05},{id:'Crew C',cb:.015,dr:.95},{id:'Crew D',cb:.045,dr:1.6},{id:'Crew E',cb:.016,dr:1}];
+  const days=[],tx=[];let backlog=0;
+  for(let d=0;d<DAYS;d++){
+   const dow=d%7,wet=d>=121&&d<=138;let rain=0;if(r()<(wet?.6:.15))rain=wet?.3+r()*1.6:.1+r()*1.1;
+   days.push({d,v:rain});if(dow>5)continue;
+   const grow=d<122?1:d<153?.8:.45,dj=[],washed=rain>.4;
+   const add=(type,p0,mat,lab,drive)=>{const s=staff[Math.floor(r()*5)],price=p0*(.85+r()*.3),cb=r()<s.cb;
+    const disc=type==='Mowing'?(r()<.5?price*.05:0):type==='Installs'&&r()<.2?price*.08:0;
+    dj.push({d,type,staff:s.id,price,p:cb,c:{'Discounts':disc,'Materials':mat*(.8+r()*.4),'Planned crew labor':lab,'Drive time':drive*s.dr,'Redo visits':cb?lab:0}})};
+   const mow=dow===5?0:Math.round(38*grow);
+   if(washed){backlog+=mow}else{const n=mow+Math.min(backlog,14);backlog=Math.max(0,backlog-14);for(let i=0;i<n;i++)add('Mowing',60,2,34,6)}
+   const cl=pois(d>120?1+(d-120)/20:.4,r);if(!washed)for(let i=0;i<cl;i++)add('Cleanup',380,25,150,18);
+   for(let i=0,n=pois(1.4,r);i<n;i++)add('Irrigation',240,45,70,18);
+   if(!washed)for(let i=0,n=pois(.35,r);i<n;i++)add('Installs',3400,1450,950,18);
+   const done=sum(dj,j=>j.c['Planned crew labor']),cap=dow===5?700:1900;
+   spread(dj,Math.max(0,cap-done),'Idle crew pay');dj.forEach(j=>tx.push(j));
+  }
+  return {days,tx,staff:staff.map(s=>s.id)};
+ }};
+
+const tips={'Labor over estimate':'Update labor standards for the job types that run long, and quote from them.','Discounts':'Tighten who can give a discount and why.','Callback rework':'Add a short finish checklist before leaving each job.','Overstaffing':'Build the schedule from forecast covers by day, not habit; Tuesdays and Wednesdays run heavy.','Delivery app fees':'Push direct online ordering with a small incentive to move orders off the apps.','Comps and discounts':'Track every comp by reason and server.','Remakes':'Read orders back at the table and check tickets at the pass.','Coupons and discounts':'Tie coupons to slow days only.','Parts mis-orders':'Confirm part numbers by VIN before ordering.','Comebacks':'Road-test and peer-check major repairs before release.','Bought leads':'Bought internet leads convert at 7%: shift that budget to referral rewards.','Cancellation chargebacks':'Call new customers at 30 days and review fit before binding.','Application rework':'Use a pre-submission checklist for each carrier.','Drive time':'Tighten routes by neighborhood; one crew drives far more than the rest.','Redo visits':'Do a walk-through photo at the end of each visit.','Food waste':'Set prep levels from a forecast.','Overtime premium':'Plan staffing for peak weeks.','Unbilled tech time':'Pre-order parts at booking.','Idle crew pay':'Plan rain-day work.','Claims-call overload':'Route claims calls to carriers.'};
+
+/* ================= ENGINE ================= */
+const cache={};
+let K='hvac',I=IND.hvac,data=null,cur=null,filter='All';
 function costs(js){
  const billed=sum(js,j=>j.price);
- const c=[
-  {k:"Discounts",v:sum(js,j=>j.disc),ctl:true},
-  {k:"Parts and equipment",v:sum(js,j=>j.parts),ctl:false},
-  {k:"Planned labor",v:sum(js,j=>j.est*RATE),ctl:false},
-  {k:"Labor over estimate",v:sum(js,j=>Math.max(0,j.act-j.est)*RATE),ctl:true},
-  {k:"Overtime premium",v:sum(js,j=>j.ot),ctl:true},
-  {k:"Callback rework",v:sum(js,j=>j.cbCost),ctl:true}];
- const kept=billed-sum(c,x=>x.v);
- return {billed,c,kept,net:billed-c[0].v};
+ const c=I.leaks.map(([k,ctl])=>({k,ctl:!!ctl,v:sum(js,j=>j.c[k]||0)}));
+ const kept=billed-sum(c,x=>x.v),net=billed-(I.disc?sum(js,j=>j.c[I.disc]||0):0);
+ return {billed,c,kept,net};
 }
 const margin=js=>{const x=costs(js);return x.net?x.kept/x.net:0};
 
-let filter="All",cur=jobs;
-$('filters').innerHTML=["All",...Object.keys(types)].map(f=>`<button class="chip" type="button" data-f="${f}" aria-pressed="${f==='All'}">${f==='All'?'All jobs':f}</button>`).join('');
-$('filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;filter=b.dataset.f;for(const c of $('filters').children)c.setAttribute('aria-pressed',c===b);render()});
-
-/* headline from all data */
-{
- const x=costs(jobs),per=v=>v/x.billed*100,leak=sum(x.c.filter(c=>c.ctl),c=>c.v);
- $('headline').textContent=`For every $100 billed, $${per(x.kept).toFixed(0)} stays as margin and $${per(leak).toFixed(0)} leaks out through discounts, overruns, overtime and callbacks: ${money(leak)} in six months`;
-}
-
-/* ---- The Profit Duct ---- */
-const svg=$('ductsvg'),box=$('duct');
-let parts=[],raf=0,geo=null;
+/* ---- flow ---- */
+const svg=$('ductsvg'),box=$('duct');let parts=[],geo=null;
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let seedP=7;const pr=()=>(seedP=seedP*16807%2147483647)/2147483647;
 function drawDuct(){
- const x=costs(cur);
- const W=box.clientWidth;if(!W)return;
- const vert=W<760;
- const leaksN=x.c.length;
+ const x=costs(cur),W=box.clientWidth;if(!W||!x.billed)return;
+ const vert=W<760,N=x.c.length;
  const H0=vert?Math.min(120,W*.3):Math.min(150,Math.max(110,W*.11));
- const Hs=vert?leaksN*96+230:400;
- box.style.setProperty('--dh',Hs+'px');
- const H=box.clientHeight;
- const u0=vert?70:24,uEnd=vert?Hs-80:W-170;
- const first=u0+(vert?40:110),last=uEnd-(vert?40:70);
- const us=x.c.map((c,i)=>first+(last-first)*i/(leaksN-1));
- const v0=vert?Math.max(H0/2+16,W*.24):150;
- const drop=vert?44:64;
- const P=(u,v)=>vert?[v0+v,u]:[u,v0+v];
- const sc=H0/x.billed;
- let h=H0;const hs=[h];
- x.c.forEach(c=>{h-=Math.max(c.v*sc,0);hs.push(h)});
- const top=[],bot=[];
- top.push(P(u0,-H0/2));bot.push(P(u0,H0/2));
+ const Hs=vert?N*96+230:420;box.style.setProperty('--dh',Hs+'px');const H=box.clientHeight;
+ const u0=vert?70:24,uEnd=vert?Hs-80:W-170,first=u0+(vert?40:110),last=uEnd-(vert?40:70);
+ const us=x.c.map((c,i)=>first+(last-first)*i/(N-1));
+ const v0=vert?Math.max(H0/2+16,W*.24):150,drop=vert?44:64;
+ const P=(u,v)=>vert?[v0+v,u]:[u,v0+v],sc=H0/x.billed;
+ let h=H0;const hs=[h];x.c.forEach(c=>{h-=Math.max(c.v*sc,0);hs.push(h)});
+ const top=[P(u0,-H0/2)],bot=[P(u0,H0/2)];
  us.forEach((u,i)=>{top.push(P(u-12,-hs[i]/2),P(u+12,-hs[i+1]/2));bot.push(P(u-12,hs[i]/2),P(u+12,hs[i+1]/2))});
- top.push(P(uEnd,-hs[leaksN]/2));bot.push(P(uEnd,hs[leaksN]/2));
- const poly=[...top,...bot.reverse()].map(p=>p.join(',')).join(' ');
- const hf=hs[leaksN];
+ top.push(P(uEnd,-hs[N]/2));bot.push(P(uEnd,hs[N]/2));
+ const poly=[...top,...bot.reverse()].map(p=>p.join(',')).join(' '),hf=hs[N];
  const arrow=[P(uEnd,-hf/2-14),P(uEnd+30,0),P(uEnd,hf/2+14)].map(p=>p.join(',')).join(' ');
  const end=H0/2+drop;
  let g=`<defs><linearGradient id="dg" ${vert?'x1="0" y1="0" x2="1" y2="0"':'x1="0" y1="0" x2="0" y2="1"'}><stop offset="0" stop-color="#5b7cff"/><stop offset=".45" stop-color="#2347d6"/><stop offset="1" stop-color="#1a36a8"/></linearGradient></defs>`;
- const streams=x.c.map((c,i)=>{
-  const w=Math.max(3,c.v*sc),u=us[i],e=hs[i+1]/2;
-  const a=P(u-w/2,e),b=P(u+w/2,e),cc=P(u+w/2,end-6),d=P(u-w/2,end-6),tip=P(u,end+4);
-  const col=c.ctl?'#ff7a45':'var(--soft)';
-  const per=c.v/x.billed*100;
-  const lp=vert?P(u,end+14):P(u,end+26);
-  const anchor=vert?'start':'middle';
-  const words=c.k.split(' ');const l1=vert?c.k:words.length>2?words.slice(0,2).join(' '):words[0],l2=vert?'':words.length>2?words.slice(2).join(' '):words.slice(1).join(' ');
+ const lab=W<1000&&!vert?12.5:13.5;
+ x.c.forEach((c,i)=>{
+  const w=Math.max(3,c.v*sc),u=us[i],e=hs[i+1]/2,a=P(u-w/2,e),b=P(u+w/2,e),cc=P(u+w/2,end-6),dd=P(u-w/2,end-6),tp=P(u,end+4);
+  const col=c.ctl?'#ff7a45':'var(--soft)',per=c.v/x.billed*100,lp=vert?P(u,end+14):P(u,end+26),anchor=vert?'start':'middle';
+  const wd=c.k.split(' '),cut=Math.ceil(wd.length/2),l1=vert?c.k:wd.length>1?wd.slice(0,cut).join(' '):c.k,l2=vert?'':wd.length>1?wd.slice(cut).join(' '):'';
   const ty=vert?lp[1]-6:lp[1];
-  let t=`<g><title>${c.k}: ${money(c.v)} (${per.toFixed(1)} per $100 billed)</title><path d="M${a} L${b} L${cc} Q${tip} ${d} Z" fill="${col}"/>`;
-  t+=`<text x="${lp[0]}" y="${ty}" text-anchor="${anchor}" style="font-size:13.5px;font-weight:700;fill:var(--ink)">${l1}${l2&&!vert?`<tspan x="${lp[0]}" dy="16">${l2}</tspan>`:''}</text>`;
-  t+=`<text x="${lp[0]}" y="${ty+(vert?18:(l2?36:20))}" text-anchor="${anchor}" style="font-size:13.5px;fill:${c.ctl?'light-dark(#c2410c,#ff9a6e)':'var(--mute)'};font-weight:600">$${per.toFixed(1)} of $100 · ${money(c.v)}</text></g>`;
-  return t;
- }).join('');
- const inl=P(u0,-H0/2-14);
- g+=streams;
- g+=`<polygon points="${poly}" fill="url(#dg)"/><polygon points="${arrow}" fill="#1a36a8"/>`;
- g+=`<g id="pl"></g>`;
- if(!vert){
-  g+=`<text x="${inl[0]}" y="${inl[1]-18}" style="font-size:13.5px;fill:var(--mute)">Billed to customers</text><text x="${inl[0]}" y="${inl[1]}" style="font-size:20px;font-weight:800;fill:var(--ink)">$100 <tspan style="font-size:13.5px;font-weight:600;fill:var(--mute)">· ${money(x.billed)} total</tspan></text>`;
-  const o=P(uEnd+42,0);
-  g+=`<text x="${o[0]}" y="${o[1]-22}" style="font-size:13.5px;fill:var(--mute)">Kept as margin</text><text x="${o[0]}" y="${o[1]+10}" style="font-size:34px;font-weight:800;fill:var(--blue)">$${(x.kept/x.billed*100).toFixed(0)}</text><text x="${o[0]}" y="${o[1]+32}" style="font-size:13.5px;font-weight:600;fill:var(--mute)">${money(x.kept)}</text>`;
- }else{
-  g+=`<text x="${v0}" y="22" text-anchor="middle" style="font-size:13.5px;fill:var(--mute)">Billed: $100 · ${money(x.billed)}</text>`;
-  const o=P(uEnd+34,0);
-  g+=`<text x="${o[0]}" y="${o[1]+22}" text-anchor="middle" style="font-size:26px;font-weight:800;fill:var(--blue)">$${(x.kept/x.billed*100).toFixed(0)} kept</text><text x="${o[0]}" y="${o[1]+42}" text-anchor="middle" style="font-size:13.5px;fill:var(--mute)">${money(x.kept)} margin</text>`;
- }
- svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
- svg.innerHTML=g;
- geo={P,us,hs,u0,uEnd,end,sc,x,vert,W,rem:x.c.map((c,i)=>c.v/(x.billed-sum(x.c.slice(0,i),q=>q.v)))};
- parts=[];
- if(reduce){for(let i=0;i<90;i++)spawn(true);paint()}
+  g+=`<g><title>${c.k}: ${money(c.v)} (${per.toFixed(1)} of every $100)</title><path d="M${a} L${b} L${cc} Q${tp} ${dd} Z" fill="${col}"/>`;
+  g+=`<text x="${lp[0]}" y="${ty}" text-anchor="${anchor}" style="font-size:${lab}px;font-weight:700;fill:var(--ink)">${l1}${l2?`<tspan x="${lp[0]}" dy="16">${l2}</tspan>`:''}</text>`;
+  g+=`<text x="${lp[0]}" y="${ty+(vert?18:(l2?36:20))}" text-anchor="${anchor}" style="font-size:${lab}px;fill:${c.ctl?'var(--warn)':'var(--mute)'};font-weight:600">$${per.toFixed(1)}${vert?' of $100':''} · ${money(c.v)}</text></g>`;
+ });
+ g+=`<polygon points="${poly}" fill="url(#dg)"/><polygon points="${arrow}" fill="#1a36a8"/><g id="pl"></g>`;
+ const kp=(x.kept/x.billed*100).toFixed(0);
+ if(!vert){const inl=P(u0,-H0/2-14),o=P(uEnd+42,0);
+  g+=`<text x="${inl[0]}" y="${inl[1]-18}" style="font-size:13.5px;fill:var(--mute)">${I.billed[0].toUpperCase()+I.billed.slice(1)}</text><text x="${inl[0]}" y="${inl[1]}" style="font-size:20px;font-weight:800;fill:var(--ink)">$100 <tspan style="font-size:13.5px;font-weight:600;fill:var(--mute)">· ${money(x.billed)} total</tspan></text>`;
+  g+=`<text x="${o[0]}" y="${o[1]-22}" style="font-size:13.5px;fill:var(--mute)">Kept as margin</text><text x="${o[0]}" y="${o[1]+10}" style="font-size:34px;font-weight:800;fill:var(--blue)">$${kp}</text><text x="${o[0]}" y="${o[1]+32}" style="font-size:13.5px;font-weight:600;fill:var(--mute)">${money(x.kept)}</text>`;
+ }else{const o=P(uEnd+34,0);
+  g+=`<text x="${v0}" y="22" text-anchor="middle" style="font-size:13.5px;fill:var(--mute)">$100 ${I.billed} · ${money(x.billed)}</text><text x="${o[0]}" y="${o[1]+22}" text-anchor="middle" style="font-size:26px;font-weight:800;fill:var(--blue)">$${kp} kept</text><text x="${o[0]}" y="${o[1]+42}" text-anchor="middle" style="font-size:13.5px;fill:var(--mute)">${money(x.kept)} margin</text>`;}
+ svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML=g;
+ geo={P,us,hs,u0,uEnd,end,sc,x,rem:x.c.map((c,i)=>c.v/Math.max(1,x.billed-sum(x.c.slice(0,i),q=>q.v)))};
+ parts=[];if(reduce){for(let i=0;i<90;i++)spawn(true);paint()}
 }
-function spawn(rand){
- const g=geo;const u=rand?g.u0+rnd()*(g.uEnd-g.u0):g.u0;
- const p={u,l:rnd()-.5,s:'d',i:0,t:0,o:0,ctl:false};
- while(p.i<g.us.length&&g.us[p.i]<u)p.i++;
- parts.push(p);
-}
+function spawn(rand){const g=geo,u=rand?g.u0+pr()*(g.uEnd-g.u0):g.u0,p={u,l:pr()-.5,s:'d',i:0,t:0,o:0};while(p.i<g.us.length&&g.us[p.i]<u)p.i++;parts.push(p)}
 function hAt(u){const g=geo;let i=0;while(i<g.us.length&&g.us[i]<u)i++;return g.hs[i]}
-function paint(){
- const g=geo,pl=svg.querySelector('#pl');if(!pl)return;
- pl.innerHTML=parts.map(p=>{
-  let pt;
-  if(p.s==='d')pt=g.P(p.u,p.l*(hAt(p.u)-8));
-  else pt=g.P(g.us[p.i]+p.o,g.hs[p.i+1]/2+p.t*(g.end-g.hs[p.i+1]/2-8));
-  return `<circle cx="${pt[0].toFixed(1)}" cy="${pt[1].toFixed(1)}" r="2.6" fill="#ffffff" opacity="${p.s==='d'?.75:.9}"/>`;
- }).join('');
-}
-let vis=true;
-const io=new IntersectionObserver(es=>{vis=es[0].isIntersecting});io.observe(box);
-function tick(){
- raf=requestAnimationFrame(tick);
- if(!geo||reduce||!vis||document.hidden)return;
- const g=geo,sp=Math.max(1.4,(g.uEnd-g.u0)/420);
- if(parts.length<140&&rnd()<.6)spawn(false);
- for(const p of parts){
-  if(p.s==='d'){
-   p.u+=sp;
-   if(p.i<g.us.length&&p.u>=g.us[p.i]){
-    if(rnd()<g.rem[p.i]){p.s='l';p.t=0;const w=Math.max(3,g.x.c[p.i].v*g.sc);p.o=(rnd()-.5)*Math.max(0,w-5)}
-    else p.i++;
-   }
-   if(p.u>=g.uEnd)p.dead=1;
-  }else{p.t+=.03;if(p.t>=1)p.dead=1}
- }
- parts=parts.filter(p=>!p.dead);
- paint();
-}
-const roD=new ResizeObserver(()=>drawDuct());roD.observe(box);
-tick();
+function paint(){const g=geo,pl=svg.querySelector('#pl');if(!pl)return;
+ pl.innerHTML=parts.map(p=>{const pt=p.s==='d'?g.P(p.u,p.l*(hAt(p.u)-8)):g.P(g.us[p.i]+p.o,g.hs[p.i+1]/2+p.t*(g.end-g.hs[p.i+1]/2-8));return `<circle cx="${pt[0].toFixed(1)}" cy="${pt[1].toFixed(1)}" r="2.6" fill="#ffffff" opacity="${p.s==='d'?.75:.9}"/>`}).join('')}
+let vis=true;const io=new IntersectionObserver(es=>{vis=es[0].isIntersecting});io.observe(box);
+function tick(){requestAnimationFrame(tick);if(!geo||reduce||!vis||document.hidden)return;const g=geo,sp=Math.max(1.4,(g.uEnd-g.u0)/420);
+ if(parts.length<140&&pr()<.6)spawn(false);
+ for(const p of parts){if(p.s==='d'){p.u+=sp;if(p.i<g.us.length&&p.u>=g.us[p.i]){if(pr()<g.rem[p.i]){p.s='l';p.t=0;const w=Math.max(3,g.x.c[p.i].v*g.sc);p.o=(pr()-.5)*Math.max(0,w-5)}else p.i++}if(p.u>=g.uEnd)p.dead=1}else{p.t+=.03;if(p.t>=1)p.dead=1}}
+ parts=parts.filter(p=>!p.dead);paint()}
+const roD=new ResizeObserver(()=>drawDuct());roD.observe(box);tick();
 
-/* ---- Margin Weather Map ---- */
+/* ---- weather map ---- */
 const cv=$('map'),mb=$('mapbox'),tip=$('tip'),ts=$('tempsvg');
-const WEEKS=26,ROWS=6;
 let grid=null,raw=null,lo=0,hi=1;
 function buildGrid(){
- const byDay=days.map(()=>[]);
- cur.forEach(j=>byDay[j.d].push(j));
- raw=days.map((dy,i)=>dy.open&&byDay[i].length?{m:margin(byDay[i]),n:byDay[i].length,rev:sum(byDay[i],j=>j.price-j.disc),cb:byDay[i].filter(j=>j.cb).length}:null);
- const vals=raw.filter(Boolean).map(r=>r.m),mean=sum(vals,v=>v)/vals.length;
- const G=[];
- for(let r=0;r<ROWS;r++){G.push([]);for(let c=0;c<WEEKS;c++){const x=raw[c*7+r];G[r].push(x?x.m:mean)}}
- const S=G.map((row,r)=>row.map((v,c)=>{let s=0,w=0;for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){const rr=r+dr,cc=c+dc;if(rr<0||rr>=ROWS||cc<0||cc>=WEEKS)continue;const k=(dr===0&&dc===0)?4:(dr===0||dc===0)?2:1;s+=G[rr][cc]*k;w+=k}return s/w}));
- grid=S;
- const all=S.flat();
- lo=Math.floor(Math.min(...all)*20)/20;hi=Math.ceil(Math.max(...all)*20)/20;if(hi-lo<.1){lo-=.05;hi+=.05}
+ const R=I.rows,byDay=data.days.map(()=>[]);cur.forEach(j=>byDay[j.d].push(j));
+ raw=data.days.map((dy,i)=>byDay[i].length?{m:margin(byDay[i]),n:byDay[i].length,rev:sum(byDay[i],j=>j.price-(I.disc?j.c[I.disc]||0:0)),p:byDay[i].filter(j=>j.p).length}:null);
+ const vals=raw.filter(Boolean).map(r=>r.m),mean=vals.length?sum(vals,v=>v)/vals.length:0;
+ const G=R.map(dw=>Array.from({length:WEEKS},(_,c)=>{const x=raw[c*7+dw];return x?x.m:mean}));
+ grid=G.map((row,r)=>row.map((v,c)=>{let s=0,w=0;for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++){const rr=r+a,cc=c+b;if(rr<0||rr>=R.length||cc<0||cc>=WEEKS)continue;const k=(!a&&!b)?4:(!a||!b)?2:1;s+=G[rr][cc]*k;w+=k}return s/w}));
+ const all=grid.flat();lo=Math.floor(Math.min(...all)*20)/20;hi=Math.ceil(Math.max(...all)*20)/20;if(hi-lo<.1){lo-=.05;hi+=.05}
  $('lo').textContent=Math.round(lo*100)+'% margin';$('hi').textContent=Math.round(hi*100)+'%';
 }
 const ramp=[[31,63,191],[138,160,238],[243,241,234],[255,180,142],[255,122,69]];
-function col(v){let t=(v-lo)/(hi-lo);t=Math.max(0,Math.min(1,t))*(ramp.length-1);const i=Math.min(ramp.length-2,Math.floor(t)),f=t-i;return ramp[i].map((a,k)=>a+(ramp[i+1][k]-a)*f)}
-function val(x,y,W,H){
- const gx=x/W*WEEKS-.5,gy=y/H*ROWS-.5;
- const c0=Math.max(0,Math.min(WEEKS-1,Math.floor(gx))),r0=Math.max(0,Math.min(ROWS-1,Math.floor(gy)));
- const c1=Math.min(WEEKS-1,c0+1),r1=Math.min(ROWS-1,r0+1);
+const col=v=>{let t=(v-lo)/(hi-lo);t=Math.max(0,Math.min(1,t))*(ramp.length-1);const i=Math.min(ramp.length-2,Math.floor(t)),f=t-i;return ramp[i].map((a,k)=>a+(ramp[i+1][k]-a)*f)};
+function val(x,y,W,H){const NR=I.rows.length,gx=x/W*WEEKS-.5,gy=y/H*NR-.5;
+ const c0=Math.max(0,Math.min(WEEKS-1,Math.floor(gx))),r0=Math.max(0,Math.min(NR-1,Math.floor(gy))),c1=Math.min(WEEKS-1,c0+1),r1=Math.min(NR-1,r0+1);
  const fx=Math.max(0,Math.min(1,gx-c0)),fy=Math.max(0,Math.min(1,gy-r0));
- const a=grid[r0][c0]*(1-fx)+grid[r0][c1]*fx,b=grid[r1][c0]*(1-fx)+grid[r1][c1]*fx;
- const s=fx*fx*(3-2*fx);void s;
- return a*(1-fy)+b*fy;
-}
+ return (grid[r0][c0]*(1-fx)+grid[r0][c1]*fx)*(1-fy)+(grid[r1][c0]*(1-fx)+grid[r1][c1]*fx)*fy}
 function drawMap(){
- const W=mb.clientWidth,H=mb.clientHeight;if(!W||!H)return;
- const dpr=Math.min(2,devicePixelRatio||1);
- cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
- const ctx=cv.getContext('2d');
- const img=ctx.createImageData(cv.width,cv.height),D=img.data;
- for(let py=0;py<cv.height;py++)for(let px=0;px<cv.width;px++){
-  const c=col(val(px/dpr,py/dpr,W,H)),o=(py*cv.width+px)*4;
-  D[o]=c[0];D[o+1]=c[1];D[o+2]=c[2];D[o+3]=255;
- }
- ctx.putImageData(img,0,0);
- ctx.scale(dpr,dpr);
- /* isolines via marching squares */
- const step=4,nx=Math.ceil(W/step),ny=Math.ceil(H/step);
- const F=[];for(let j=0;j<=ny;j++){F.push([]);for(let i=0;i<=nx;i++)F[j].push(val(Math.min(W,i*step),Math.min(H,j*step),W,H))}
- const lvStep=(hi-lo)>.3?.05:.025;
- ctx.lineWidth=1.2;ctx.strokeStyle='rgba(16,21,43,.38)';ctx.font='600 13px "Open Sans",sans-serif';
- const labels=[];
- for(let L=lo+lvStep;L<hi-1e-9;L+=lvStep){
-  ctx.beginPath();let best=null;
-  for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
-   const a=F[j][i],b=F[j][i+1],c=F[j+1][i+1],d=F[j+1][i];
-   const pts=[];
+ const W=mb.clientWidth,H=mb.clientHeight;if(!W||!H||!grid)return;
+ const dpr=Math.min(2,devicePixelRatio||1);cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+ const ctx=cv.getContext('2d'),img=ctx.createImageData(cv.width,cv.height),D=img.data;
+ for(let py=0;py<cv.height;py++)for(let px=0;px<cv.width;px++){const c=col(val(px/dpr,py/dpr,W,H)),o=(py*cv.width+px)*4;D[o]=c[0];D[o+1]=c[1];D[o+2]=c[2];D[o+3]=255}
+ ctx.putImageData(img,0,0);ctx.scale(dpr,dpr);
+ const step=4,nx=Math.ceil(W/step),ny=Math.ceil(H/step),F=[];
+ for(let j=0;j<=ny;j++){F.push([]);for(let i=0;i<=nx;i++)F[j].push(val(Math.min(W,i*step),Math.min(H,j*step),W,H))}
+ const lv=(hi-lo)>.3?.05:.025;ctx.lineWidth=1.2;ctx.strokeStyle='rgba(16,21,43,.38)';ctx.font='600 13px "Open Sans",sans-serif';const labels=[];
+ for(let L=lo+lv;L<hi-1e-9;L+=lv){ctx.beginPath();let best=null;
+  for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const a=F[j][i],b=F[j][i+1],c=F[j+1][i+1],d=F[j+1][i],pts=[],x0=i*step,y0=j*step;
    const ed=(v1,v2,x1,y1,x2,y2)=>{if((v1<L)!==(v2<L)){const t=(L-v1)/(v2-v1);pts.push([x1+(x2-x1)*t,y1+(y2-y1)*t])}};
-   const x0=i*step,y0=j*step;
    ed(a,b,x0,y0,x0+step,y0);ed(b,c,x0+step,y0,x0+step,y0+step);ed(d,c,x0,y0+step,x0+step,y0+step);ed(a,d,x0,y0,x0,y0+step);
-   for(let k=0;k+1<pts.length;k+=2){ctx.moveTo(pts[k][0],pts[k][1]);ctx.lineTo(pts[k+1][0],pts[k+1][1]);
-    const mx=(pts[k][0]+pts[k+1][0])/2,my=(pts[k][1]+pts[k+1][1])/2;
-    if(mx>40&&mx<W-40&&my>16&&my<H-16){const sc=Math.abs(mx-W*(.25+.5*((Math.round(L*100))%3)/2));if(!best||sc<best.sc)best={mx,my,sc}}}
-  }
-  ctx.stroke();
-  if(best&&W>=420&&!labels.some(q=>Math.abs(q.mx-best.mx)<70&&Math.abs(q.my-best.my)<22))labels.push({...best,t:Math.round(L*100)+'%'});
- }
+   for(let k=0;k+1<pts.length;k+=2){ctx.moveTo(pts[k][0],pts[k][1]);ctx.lineTo(pts[k+1][0],pts[k+1][1]);const mx=(pts[k][0]+pts[k+1][0])/2,my=(pts[k][1]+pts[k+1][1])/2;
+    if(mx>40&&mx<W-40&&my>16&&my<H-16){const s=Math.abs(mx-W*(.25+.25*(Math.round(L*100)%3)));if(!best||s<best.s)best={mx,my,s}}}}
+  ctx.stroke();if(best&&W>=420&&!labels.some(q=>Math.abs(q.mx-best.mx)<70&&Math.abs(q.my-best.my)<22))labels.push({...best,t:Math.round(L*100)+'%'})}
  for(const l of labels){const w=ctx.measureText(l.t).width+8;ctx.fillStyle='rgba(255,255,255,.85)';ctx.beginPath();ctx.roundRect(l.mx-w/2,l.my-9,w,18,4);ctx.fill();ctx.fillStyle='#10152b';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(l.t,l.mx,l.my+.5)}
- /* callback storms */
- const cw=W/WEEKS,rh=H/ROWS;
- raw.forEach((r,i)=>{if(!r||r.cb<3)return;const c=Math.floor(i/7),row=i%7;const x=(c+.5)*cw,y=(row+.5)*rh,R=Math.min(9,cw*.38);
+ const cw=W/WEEKS,rh=H/I.rows.length;
+ raw.forEach((r,i)=>{const ri=I.rows.indexOf(i%7);if(!r||r.p<I.prob.min||ri<0)return;const x=(Math.floor(i/7)+.5)*cw,y=(ri+.5)*rh,R=Math.min(9,cw*.38);
   ctx.strokeStyle='#10152b';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,R,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(x,y,R*.45,0,Math.PI*2);ctx.fillStyle='#10152b';ctx.fill()});
- drawTemp(W);
- drawMonths(W);
+ drawDriver(W);drawMonths(W);
 }
-function drawTemp(W){
- const H=ts.clientHeight||76,top=16,bot=H-4,tmin=62,tmax=108;
- const X=d=>(d+.5)/(WEEKS*7)*W,Y=t=>bot-(t-tmin)/(tmax-tmin)*(bot-top);
- const pts=days.map(dy=>`${X(dy.d).toFixed(1)},${Y(dy.t).toFixed(1)}`).join(' ');
- const hx0=X(heatWave[0]),hx1=X(heatWave[1]);
- ts.setAttribute('viewBox',`0 0 ${W} ${H}`);
- ts.innerHTML=`<rect x="${hx0}" y="0" width="${hx1-hx0}" height="${H}" fill="#ff7a45" opacity=".16"/><text x="${hx0+4}" y="11" style="font-size:12.5px;font-weight:700;fill:light-dark(#c2410c,#ff9a6e)">${W<520?'Heat':'Heat wave'}</text>`+
-  `<polygon points="${X(0)},${bot} ${pts} ${X(DAYS-1)},${bot}" fill="#ff7a45" opacity=".22"/><polyline points="${pts}" fill="none" stroke="#e0531c" stroke-width="1.6"/>`+
-  `<text x="${W-2}" y="11" text-anchor="end" style="font-size:12.5px;fill:var(--mute)">Daily high, °F</text>`;
+function drawDriver(W){
+ const dv=I.driver,H=ts.clientHeight||76,top=16,bot=H-4,X=d=>(d+.5)/(WEEKS*7)*W,Y=v=>bot-(Math.min(v,dv.max)-dv.min)/(dv.max-dv.min)*(bot-top);
+ const hx0=X(dv.ev[0]),hx1=X(dv.ev[1]);
+ let s=`<rect x="${hx0}" y="0" width="${hx1-hx0}" height="${H}" fill="#ff7a45" opacity=".16"/><text x="${hx0+4}" y="12" style="font-size:12.5px;font-weight:700;fill:var(--warn)">${W<560?dv.short:dv.evLabel}</text>`;
+ if(dv.style==='line'){const pts=data.days.map(dy=>`${X(dy.d).toFixed(1)},${Y(dy.v).toFixed(1)}`).join(' ');s+=`<polygon points="${X(0)},${bot} ${pts} ${X(DAYS-1)},${bot}" fill="#ff7a45" opacity=".22"/><polyline points="${pts}" fill="none" stroke="#e0531c" stroke-width="1.6"/>`}
+ else{const bw=Math.max(1,W/DAYS-.6);s+=data.days.map(dy=>dy.v>0?`<rect x="${(X(dy.d)-bw/2).toFixed(1)}" y="${Y(dy.v).toFixed(1)}" width="${bw.toFixed(1)}" height="${(bot-Y(dy.v)).toFixed(1)}" fill="${K==='restaurant'||K==='landscaping'?'#5b7cff':'#e0531c'}" opacity=".8"/>`:'').join('')}
+ s+=`<text x="${W-2}" y="12" text-anchor="end" style="font-size:12.5px;fill:var(--mute)">${dv.label}</text>`;
+ ts.setAttribute('viewBox',`0 0 ${W} ${H}`);ts.innerHTML=s;
 }
-function drawMonths(W){
- const names=['Jun','Jul','Aug','Sep','Oct','Nov'];let h='';
- names.forEach((m,i)=>{const d0=Math.round((Date.UTC(2026,5+i,1)-START)/864e5);h+=`<span style="left:${(d0/(WEEKS*7)*W).toFixed(1)}px">${m}</span>`});
- $('months').innerHTML=h;
-}
-mb.addEventListener('pointermove',e=>{
- const r=mb.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
- const c=Math.max(0,Math.min(WEEKS-1,Math.floor(x/r.width*WEEKS))),row=Math.max(0,Math.min(ROWS-1,Math.floor(y/r.height*ROWS)));
- const i=c*7+row,dy=days[i],v=raw[i];
- tip.innerHTML=v?`<b>${fmtD(dy.date)}</b> · ${dy.t}°F<br>${v.n} jobs · ${money(v.rev)} · margin ${pct(v.m)}${v.cb?`<br>${v.cb} callback${v.cb>1?'s':''}`:''}`:`<b>${fmtD(dy.date)}</b><br>No ${filter==='All'?'':filter.toLowerCase()+' '}jobs`;
- tip.style.opacity=1;
- const tw=tip.offsetWidth;tip.style.left=Math.min(r.width-tw-6,Math.max(6,x+14))+'px';tip.style.top=Math.max(6,y-58)+'px';
-});
+function drawMonths(W){let h='';['Jun','Jul','Aug','Sep','Oct','Nov'].forEach((m,i)=>{const d0=Math.round((Date.UTC(2026,5+i,1)-START)/864e5);h+=`<span style="left:${(d0/(WEEKS*7)*W).toFixed(1)}px">${m}</span>`});$('months').innerHTML=h}
+mb.addEventListener('pointermove',e=>{if(!raw)return;
+ const r=mb.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,NR=I.rows.length;
+ const c=Math.max(0,Math.min(WEEKS-1,Math.floor(x/r.width*WEEKS))),row=Math.max(0,Math.min(NR-1,Math.floor(y/r.height*NR))),i=c*7+I.rows[row],v=raw[i],dy=data.days[i];
+ tip.innerHTML=v?`<b>${fmtD(dayDate(i))}</b> · ${I.driver.fmt(dy.v)}<br>${v.n} ${I.noun} · ${money(v.rev)} · margin ${pct(v.m)}${v.p?`<br>${v.p} ${v.p>1?I.prob.many:I.prob.one}`:''}`:`<b>${fmtD(dayDate(i))}</b><br>No ${filter==='All'?'':filter.toLowerCase()+' '}${I.noun}`;
+ tip.style.opacity=1;const tw=tip.offsetWidth;tip.style.left=Math.min(r.width-tw-6,Math.max(6,x+14))+'px';tip.style.top=Math.max(6,y-58)+'px'});
 mb.addEventListener('pointerleave',()=>tip.style.opacity=0);
 const roM=new ResizeObserver(()=>drawMap());roM.observe(mb);
 
-/* ---- render all ---- */
+/* ---- render ---- */
 function render(){
- cur=filter==="All"?jobs:jobs.filter(j=>j.type===filter);
- const x=costs(cur),leak=sum(x.c.filter(c=>c.ctl),c=>c.v);
- const est=sum(cur,j=>j.est),act=sum(cur,j=>j.act),cb=cur.filter(j=>j.cb).length/cur.length;
- const k=[
-  {l:"Revenue",v:money(x.net),n:`${cur.length.toLocaleString()} jobs after discounts`},
-  {l:"Estimated margin",v:pct(x.kept/x.net),n:"After parts, labor and leaks"},
-  {l:"Controllable leaks",v:money(leak),n:`$${(leak/x.billed*100).toFixed(1)} of every $100 billed`,bad:true},
-  {l:"Labor over estimate",v:'+'+pct(act/est-1),n:`${Math.round(act-est).toLocaleString()} extra hours`,bad:act/est-1>.1},
-  {l:"Callback rate",v:pct(cb),n:"Return visits within 30 days",bad:cb>.04}];
- $('kpis').innerHTML=k.map(q=>`<div class="kpi${q.bad?' bad':''}"><span>${q.l}</span><b>${q.v}</b><small>${q.n}</small></div>`).join('');
- drawDuct();
- buildGrid();drawMap();
- /* weather note */
- const inHW=cur.filter(j=>j.d>=heatWave[0]&&j.d<=heatWave[1]),summer=cur.filter(j=>j.d<=91&&(j.d<heatWave[0]||j.d>heatWave[1]));
- const storms=raw.filter(r=>r&&r.cb>=3).length;
- const hwOT=sum(inHW,j=>j.ot),hwRev=sum(inHW,j=>j.price-j.disc);
- $('wxnote').innerHTML=inHW.length&&summer.length?`<b>Heat wave, 20 July to 8 August:</b> revenue ran at ${money(hwRev/ (heatWave[1]-heatWave[0]+1)*7)} a week, but margin fell to ${pct(margin(inHW))} against ${pct(margin(summer))} for the rest of the summer. Overtime premium alone cost ${money(hwOT)} in those three weeks${storms?`, and ${storms} callback storm${storms>1?'s':''} hit across the season`:''}.`:'Not enough jobs of this type to compare the heat wave with the rest of the summer.';
- /* leads */
- const ls=leadStats.map(l=>({...l,conv:l.won/l.est})).sort((a,b)=>b.conv-a.conv),low=ls[ls.length-1].s;
- $('leads').innerHTML=ls.map(l=>`<div class="row${l.s===low?' flag':''}"><span>${l.s}</span><div class="track"><div class="bar" style="width:${l.conv*100}%"></div></div><b>${pct(l.conv)}</b></div>`).join('');
- /* techs */
- const tt=techs.map(t=>{const js=cur.filter(j=>j.tech===t.id),e=sum(js,j=>j.est),a=sum(js,j=>j.act);return {id:t.id,n:js.length,rev:sum(js,j=>j.price-j.disc),v:e?a/e-1:0,cb:js.length?js.filter(j=>j.cb).length/js.length:0,mg:js.length?margin(js):0}});
- const hiT=tt.reduce((a,b)=>b.cb>a.cb?b:a).id;
- $('techs').innerHTML=`<thead><tr><th>Technician</th><th>Jobs</th><th>Revenue</th><th>Labor variance</th><th>Callback rate</th><th>Est. margin</th></tr></thead><tbody>`+tt.map(t=>`<tr${t.id===hiT?' class="flag"':''}><td>${t.id}</td><td>${t.n}</td><td>${money(t.rev)}</td><td>${t.v>=0?'+':''}${pct(t.v)}</td><td>${pct(t.cb)}</td><td>${pct(t.mg)}</td></tr>`).join('')+'</tbody>';
+ cur=filter==='All'?data.tx:data.tx.filter(j=>j.type===filter);
+ const x=costs(cur),leak=sum(x.c.filter(c=>c.ctl),c=>c.v),pr=cur.filter(j=>j.p).length/Math.max(1,cur.length);
+ $('kpis').innerHTML=[
+  {l:'Revenue',v:money(x.net),n:`${cur.length.toLocaleString()} ${I.noun}${I.disc?' after discounts':''}`},
+  {l:'Estimated margin',v:pct(x.kept/x.net),n:'After all costs and leaks'},
+  {l:'Controllable leaks',v:money(leak),n:`$${(leak/x.billed*100).toFixed(1)} of every $100`,bad:true},
+  {l:`Average per ${I.one}`,v:money(x.net/Math.max(1,cur.length)),n:'Revenue per transaction'},
+  {l:I.prob.kpi,v:pct(pr),n:I.prob.note,bad:true}].map(q=>`<div class="kpi${q.bad?' bad':''}"><span>${q.l}</span><b>${q.v}</b><small>${q.n}</small></div>`).join('');
+ drawDuct();buildGrid();drawMap();
+ const ev=I.driver.ev,inW=cur.filter(j=>j.d>=ev[0]&&j.d<=ev[1]),out=cur.filter(j=>j.d<ev[0]||j.d>ev[1]);
+ const storms=raw.filter((r,i)=>r&&r.p>=I.prob.min&&I.rows.includes(i%7)).length,evCost=sum(inW,j=>j.c[I.evLeak]||0);
+ const span=`${fmtD(dayDate(ev[0])).replace(/^\w+, /,'')} to ${fmtD(dayDate(ev[1])).replace(/^\w+, /,'')}`;
+ if(inW.length>3&&out.length>3){const mi=margin(inW),mo=margin(out);
+  $('wxnote').innerHTML=`<b>${I.driver.evLabel}, ${span}:</b> margin ${mi<mo?'fell to':'held at'} ${pct(mi)} against ${pct(mo)} for the rest of the season. ${I.evLeak} alone cost ${money(evCost)} in those ${Math.round((ev[1]-ev[0]+1)/7)} weeks${storms?`, and ${storms} ${storms>1?I.prob.stormName:I.prob.stormName.replace(/s$/,'')} hit across the season`:''}.`}
+ else $('wxnote').textContent='Not enough of this type of work to compare that stretch with the rest of the season.';
+ const tt=data.staff.map(id=>{const js=cur.filter(j=>j.staff===id);return {id,n:js.length,rev:sum(js,j=>j.price-(I.disc?j.c[I.disc]||0:0)),p:js.length?js.filter(j=>j.p).length/js.length:0,mg:js.length?margin(js):0}});
+ const hiT=tt.reduce((a,b)=>b.p>a.p?b:a).id;
+ $('techs').innerHTML=`<thead><tr><th>${I.staff.col}</th><th>${I.noun[0].toUpperCase()+I.noun.slice(1)}</th><th>Revenue</th><th>Average</th><th>${I.prob.col}</th><th>Est. margin</th></tr></thead><tbody>`+tt.map(t=>`<tr${t.id===hiT?' class="flag"':''}><td>${t.id}</td><td>${t.n.toLocaleString()}</td><td>${money(t.rev)}</td><td>${money(t.rev/Math.max(1,t.n))}</td><td>${pct(t.p)}</td><td>${pct(t.mg)}</td></tr>`).join('')+'</tbody>';
 }
-render();
-
-/* actions from all data */
-{
- const x=costs(jobs),get=k=>x.c.find(c=>c.k===k).v;
- const hw=jobs.filter(j=>j.d>=heatWave[0]&&j.d<=heatWave[1]);
- const tt=techs.map(t=>{const js=jobs.filter(j=>j.tech===t.id);return {id:t.id,cb:js.filter(j=>j.cb).length/js.length}});
- const worst=tt.reduce((a,b)=>b.cb>a.cb?b:a),others=tt.filter(t=>t!==worst),avg=sum(others,t=>t.cb)/others.length;
- $('actions').innerHTML=[
-  {t:"Plan for the next heat wave",p:`Overtime premium cost ${money(get("Overtime premium"))} this season, ${money(sum(hw,j=>j.ot))} of it in one three-week heat wave. Book maintenance before June, add a surge price for same-day calls, and line up a standby subcontractor.`,e:"Watch: overtime hours per week when highs pass 100°F"},
-  {t:`Coach ${worst.id} on first-time fixes`,p:`${worst.id}'s callback rate is ${pct(worst.cb)} against ${pct(avg)} for the rest of the team, and callback rework cost ${money(get("Callback rework"))} in total.`,e:"Watch: callback rate by technician, monthly"},
-  {t:"Tighten discounts and estimates",p:`Discounts took ${money(get("Discounts"))} and labor over estimate ${money(get("Labor over estimate"))}. Review the discount rules and update labor standards for installs.`,e:"Watch: dollars per $100 billed for each leak"}
+function selectInd(k){
+ if(!IND[k])k='hvac';K=k;I=IND[k];
+ if(!cache[k])cache[k]=I.sim(mkRnd(20261125+k.length*97));
+ data=cache[k];filter='All';
+ for(const b of $('inds').children)b.setAttribute('aria-pressed',b.dataset.k===k);
+ $('company').textContent=`${I.company} · 1 June to 29 November 2026`;
+ $('flowTitle').textContent=I.flowTitle;$('flowSub').textContent=I.flowSub;
+ $('wxSub').textContent=`Each day's estimated margin drawn like a weather map: warm orange is a profitable day, cold blue a poor one, with contour lines every few points. ${I.driver.desc} Hover any day for its numbers.`;
+ $('stormKey').textContent='◎ '+I.prob.storm;
+ const dl=$('daylabels');dl.style.gridTemplateRows=`repeat(${I.rows.length},1fr)`;dl.innerHTML=I.rows.map(i=>`<span>${DOW[i]}</span>`).join('');
+ $('filters').innerHTML=['All',...I.types].map(f=>`<button class="chip" type="button" data-f="${f}" aria-pressed="${f==='All'}">${f==='All'?'All '+I.noun:f}</button>`).join('');
+ $('leadTitle').textContent=I.leadsT[0];$('leadSub').textContent=I.leadsT[1];
+ const L=[...I.leadsT[2]].sort((a,b)=>b[1]-a[1]),low=L[L.length-1][0];
+ $('leads').innerHTML=L.map(([s,v])=>`<div class="row${s===low?' flag':''}"><span>${s}</span><div class="track"><div class="bar" style="width:${v*100}%"></div></div><b>${pct(v)}</b></div>`).join('');
+ $('staffTitle').textContent=I.staff.title;$('staffSub').textContent=I.staff.sub;
+ const x=costs(data.tx),per=v=>v/x.billed*100,leak=sum(x.c.filter(c=>c.ctl),c=>c.v);
+ const ctlNames=x.c.filter(c=>c.ctl).map(c=>c.k.toLowerCase());
+ $('headline').textContent=`For every $100 ${I.billed}, $${per(x.kept).toFixed(0)} stays as margin and $${per(leak).toFixed(0)} leaks out through ${ctlNames.slice(0,-1).join(', ')} and ${ctlNames.slice(-1)}: ${money(leak)} in six months`;
+ const ev=I.driver.ev,evAll=sum(data.tx.filter(j=>j.d>=ev[0]&&j.d<=ev[1]),j=>j.c[I.evLeak]||0),evTot=x.c.find(c=>c.k===I.evLeak).v;
+ const st=data.staff.map(id=>{const js=data.tx.filter(j=>j.staff===id);return {id,p:js.filter(j=>j.p).length/js.length}}),worst=st.reduce((a,b)=>b.p>a.p?b:a),oth=st.filter(s=>s!==worst),avg=sum(oth,s=>s.p)/oth.length;
+ const big=x.c.filter(c=>c.ctl&&c.k!==I.evLeak).sort((a,b)=>b.v-a.v)[0];
+ $('actions').innerHTML=[I.evAction(evTot,evAll),
+  {t:`Coach ${worst.id} on ${I.prob.many}`,p:`${worst.id}'s ${I.prob.col.toLowerCase()} is ${pct(worst.p)} against ${pct(avg)} for the rest of the team.`,e:`Watch: ${I.prob.col.toLowerCase()} by ${I.staff.col.toLowerCase()}, monthly`},
+  {t:`Fix the biggest steady leak: ${big.k.toLowerCase()}`,p:`${big.k} cost ${money(big.v)}, $${per(big.v).toFixed(1)} of every $100. ${tips[big.k]||''}`,e:`Watch: ${big.k.toLowerCase()} per $100, monthly`}
  ].map(a=>`<li><b>${a.t}</b><p>${a.p}</p><span class="ev">${a.e}</span></li>`).join('');
+ document.title=`Sample ${I.label} Dashboard`;
+ render();
 }
+$('filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;filter=b.dataset.f;for(const c of $('filters').children)c.setAttribute('aria-pressed',c===b);render()});
+$('inds').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(location.hash!=='#'+b.dataset.k){try{history.replaceState(null,'','#'+b.dataset.k)}catch(_){}};selectInd(b.dataset.k)});
+addEventListener('hashchange',()=>selectInd(location.hash.slice(1)));
+selectInd((location.hash||'#hvac').slice(1));
 }
 </script>
 </body>
