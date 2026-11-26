@@ -367,5 +367,38 @@ addEventListener('hashchange',()=>select(location.hash.slice(1)));
 select((location.hash||'#hvac').slice(1));
 }
 </script>
+<button type="button" id="sndBtn" aria-pressed="true" aria-label="Sound effects on" title="Sound effects on" style="position:fixed;right:16px;bottom:16px;z-index:50;width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(35,71,214,.35);background:#fff;color:#2347d6;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(16,21,43,.15)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="w1" d="M16 9a4 4 0 0 1 0 6"/><path class="w2" d="M18.5 6.5a7.5 7.5 0 0 1 0 11"/><path class="x" d="M16 9l5 6M21 9l-5 6" style="display:none"/></svg></button>
+<script>
+{
+/* Soft interface sounds, synthesized in the browser (no audio files). Played only on clicks; the speaker button turns them off and the choice is remembered. */
+let on=true;try{on=localStorage.getItem('sbs-sound')!=='off'}catch(_){}
+const btn=document.getElementById('sndBtn');
+const paint=()=>{btn.setAttribute('aria-pressed',on);btn.setAttribute('aria-label',on?'Sound effects on':'Sound effects off');btn.title=btn.getAttribute('aria-label');
+ btn.querySelector('.w1').style.display=btn.querySelector('.w2').style.display=on?'':'none';btn.querySelector('.x').style.display=on?'none':''};
+paint();
+let ctx=null;const ac=()=>{if(!ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ctx=new C()}if(ctx.state==='suspended')ctx.resume();return ctx};
+const VOL=.18;
+function tone(f1,f2,dur,type,vol,delay){const a=ac();if(!a)return;const t=a.currentTime+(delay||0),o=a.createOscillator(),g=a.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol*VOL,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g).connect(a.destination);o.start(t);o.stop(t+dur+.02)}
+function whoosh(dur){const a=ac();if(!a)return;const t=a.currentTime,n=Math.floor(a.sampleRate*dur),b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+ const s=a.createBufferSource();s.buffer=b;const f=a.createBiquadFilter();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(300,t);f.frequency.exponentialRampToValueAtTime(2600,t+dur*.6);f.frequency.exponentialRampToValueAtTime(900,t+dur);
+ const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.55*VOL,t+dur*.35);g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(f).connect(g).connect(a.destination);s.start(t);s.stop(t+dur)}
+const S={
+ click:()=>tone(1100,620,.05,'sine',.9),
+ whoosh:()=>whoosh(.38),
+ chime:()=>{tone(880,880,.35,'sine',.7);tone(1320,1320,.45,'sine',.55,.09)},
+ success:()=>{tone(660,660,.22,'sine',.6);tone(880,880,.22,'sine',.6,.1);tone(1320,1320,.5,'sine',.5,.2)}};
+window.sbsSound=k=>{if(on&&S[k])try{S[k]()}catch(_){}};
+btn.addEventListener('click',()=>{on=!on;try{localStorage.setItem('sbs-sound',on?'on':'off')}catch(_){}paint();if(on)S.click()});
+document.addEventListener('click',e=>{if(!on)return;const el=e.target.closest('a,button,summary,select,input[type=checkbox]');if(!el||el===btn)return;
+ const href=el.getAttribute&&el.getAttribute('href')||'';
+ if(el.matches('.ind,.chip'))return window.sbsSound('whoosh');
+ if(href.includes('calendar.app.google')||el.hasAttribute('download'))return window.sbsSound('chime');
+ if(href.startsWith('#')||/sample-dashboard|index\.html/.test(href))return window.sbsSound('whoosh');
+ if(el.type==='submit')return;
+ window.sbsSound('click')},true);
+}
+</script>
+
 </body>
 </html>
